@@ -126,7 +126,9 @@ function Register() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info)
   };
-  fetch('/posts', requestOptions)
+  // fetch('/posts', requestOptions)
+  fetch(process.env.REACT_APP_BACKEND_SERVER123 + '/posts', requestOptions)
+
       .then(response => response.json())
       .then(data => setPostId(data._id));
 
@@ -228,14 +230,14 @@ function Register() {
 
         {/* <button onClick={openModal} >I'm a modal</button> */}
         {/* <button >I'm a modal</button> */}
-        <div>Esto es una prueba</div> 
+        {/* <div>Esto es una prueba</div>  */}
         {/* <img style={{"width": "40px"}} src={spinner} alt="loading..." /> */}
         {/* <Modal showModal={showModal} setShowModal={setShowModal} /> */}
         {/* <ImageViewerModal showModal={showModal} setShowModal={setShowModal} url={selectedImage} remover={deleteSelectedImage}/> */}
 
          {/* Testing */}
-        <button onClick={openModalNew}>Open Modal</button>
-        {showModalNew && <Modal2 onClose={closeModalNew} imgUrl={selectedImage} remover={deleteSelectedImage} />}
+        {/* <button onClick={openModalNew}>Open Modal</button> */}
+        {/* {showModalNew && <Modal2 onClose={closeModalNew} imgUrl={selectedImage} remover={deleteSelectedImage} />} */}
          {/* Testing */}
 
         <br/>
