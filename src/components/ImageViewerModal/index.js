@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { useSpring, animated } from 'react-spring';
+// import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
+// import { MdClose } from 'react-icons/md';
 
 const Background = styled.div`
   width: 100%;
@@ -62,7 +62,9 @@ const Image = styled.img`
 `;
 
 
-const CloseModalButton = styled(MdClose)`
+// const CloseModalButton = styled(MdClose)`
+const CloseModalButton = styled.div`
+
   cursor: pointer;
   position: absolute;
   top: 20px;
@@ -76,13 +78,13 @@ const CloseModalButton = styled(MdClose)`
 const Modal = ({ showModal, setShowModal, url, remover}) => {
   const modalRef = useRef();
 
-  const animation = useSpring({
-    config: {
-      duration: 250
-    },
-    opacity: showModal ? 1 : 0,
-    transform: showModal ? `translateY(0%)` : `translateY(-100%)`
-  });
+  // const animation = useSpring({
+  //   config: {
+  //     duration: 250
+  //   },
+  //   opacity: showModal ? 1 : 0,
+  //   transform: showModal ? `translateY(0%)` : `translateY(-100%)`
+  // });
 
   const closeModal = e => {
     if (modalRef.current === e.target) {
@@ -112,7 +114,7 @@ const Modal = ({ showModal, setShowModal, url, remover}) => {
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
-          <animated.div style={animation}>
+          {/* <animated.div style={animation}> */}
             <ModalWrapper showModal={showModal}>
               {/* <ModalImg src={require('./modal.jpg')} alt='camera' /> */}
               <ModalContent>
@@ -138,7 +140,7 @@ const Modal = ({ showModal, setShowModal, url, remover}) => {
                 onClick={() => setShowModal(prev => !prev)}
               /> */}
             </ModalWrapper>
-          </animated.div>
+          {/* </animated.div> */}
         </Background>
       ) : null}
     </>
