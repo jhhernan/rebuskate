@@ -34,10 +34,12 @@ function App() {
     const getUsers = async () => {
       console.log('Voy a intentar axios...')
       try {
-        const response = await axiosPrivate.get('/posts', {
+        const response = await axiosPrivate.get(process.env.REACT_APP_BACKEND_SERVER123 + '/posts', {
           signal: controller.signal
         })
+
         console.log('La respuesta:', response.data);
+
         setPosts(response.data);
 
       } catch (err) {
