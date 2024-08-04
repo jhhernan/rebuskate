@@ -1,0 +1,186 @@
+import logo from './logo.svg';
+import { useState } from 'react';
+import './App.css';
+import * as S from './styled';
+import mail from './img/mail.png';
+import service_icon from './img/service_icon.png';
+import drill_icon from './img/drill_icon.png';
+
+import Select from './Select';
+import Post from './components/Post'
+
+function App() {
+  const [department, setDepartment] = useState("");
+  const [city, setCity] = useState("");
+
+//   const Select = (props) => {
+//     const [currentValue, setCurrentValue] = useState('');
+//     const [open, setOpen] = useState(false);
+
+//     const handleOpen = () => {
+//       setOpen(true);
+//     };
+//     const handleClose = () => {
+//       setOpen(false);
+//     };
+//     const handleValueChange = (value) => {
+//       setCurrentValue(value);
+//     };
+//     const handleChange = (value) => {
+//       handleValueChange(value);
+//       // call method, if it exists
+//       if (onChange) onChange(value);
+//       // close, after all tasks are finished
+//       handleClose();
+//     };
+//     return (
+//       <S.SelectContainer>
+//         <S.SelectLabelButton onClick={handleOpen}>
+//           {currentValue !== "" ? currentValue : label}
+//         </S.SelectLabelButton>
+//         <S.DropdownStyle isVisible={open}>
+//           {values.map((value, index) => (
+//             <S.DropdownItem
+//               onClick={() => handleChange(value)}
+//               active={value === currentValue}
+//               key={index}
+//             >
+//               {value}
+//             </S.DropdownItem>
+//           ))}
+//         </S.DropdownStyle>
+//       </S.SelectContainer>
+//     );
+// }
+
+let countries = [
+  "USA",
+  "Britain",
+  "Germany",
+  "India",
+  "UAE",
+  "Australia",
+  "Switzerland",
+];
+
+  const handleDepartmentChange = (e) => {
+    setDepartment(e.target.value);
+    setCity("");
+  };
+
+  const handleCityChange = (e) => {
+    setCity(e.target.value);
+  };
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <S.Title>REBUSKATE.com</S.Title>
+        <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        {/* <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p> */}
+        <S.ButtonContainer>
+          <S.Button>CREAR ANUNCIOS</S.Button>
+          {/* <div>Icono</div> */}
+          <S.Icon src={mail}></S.Icon>
+        </S.ButtonContainer>
+
+        <S.Description>Tus oportunidades para hoy...</S.Description>
+
+        <S.ButtonContainer>
+          <select style={{ "background-color": "black", "color": "white",  "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none" }} 
+            onChange={handleDepartmentChange} value={department}>
+            <option value="">DEPARTAMENTO</option>
+            <option value="Atlantico">Atlantico</option>
+            <option value="Bolivar">Bolivar</option>
+            <option value="Cordoba">Cordoba</option>
+            <option value="Cesar">Cesar</option>
+            <option value="Guajira">Guajira</option>
+            <option value="Magdalena">Magdalena</option>
+            <option value="Sucre">Sucre</option>
+          </select>
+          <select
+            onChange={handleCityChange}
+            value={city}
+            // disabled={department === ""}
+            style={{ "background-color": "black", "color": "white", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none" }} >
+
+            <option value="">CIUDAD/MCPIO</option>
+            {department === "Atlantico" && (
+              <><option key="Barranquilla">Barranquilla</option><option key="Soledad">Soledad</option></>
+            )}
+            {department === "Bolivar" && (
+              <><option key="Cartagena">Cartagena</option><option key="Turbaco">Turbaco</option></>
+            )}
+            {department === "Cordoba" && (
+              <><option key="Monteria">Monteria</option><option key="Montelibano">Montelibano</option></>
+            )}
+            {department === "Cesar" && (
+              <><option key="La Paz">La Paz</option><option key="Valledupar">Valledupar</option></>
+            )}
+            {department === "Guajira" && (
+              <><option key="Riohacha">Riohacha</option><option key="Palomino">Palomino</option></>
+            )}
+            {department === "Magdalena" && (
+              <><option key="Rodadero">Rodadero</option><option key="Santa Marta">Santa Marta</option></>
+            )}
+            {department === "Sucre" && (
+              <><option key="Corozal">Corozal</option><option key="Sincelejo">Sincelejo</option></>
+            )}
+          </select>
+        </S.ButtonContainer>
+
+            <S.PostContainer>
+              <S.PostTime>hace 8 minutos</S.PostTime>
+              <S.PostType>SE NECESITA...</S.PostType>
+              <S.PostTitle>Carpintero de muebles</S.PostTitle>
+              <S.PostLocation>Barranquilla</S.PostLocation>
+            </S.PostContainer>
+        
+            <S.PostContainer>
+              <S.PostTime>hace 15 minutos</S.PostTime>
+              <S.PostType>SE NECESITA QUIEN...</S.PostType>
+              <S.PostTitle>Repare cortinas</S.PostTitle>
+              <S.PostLocation>Barranquilla</S.PostLocation>
+            </S.PostContainer>
+
+            <S.PostContainer>
+              <S.PostTime>hace 2 horas</S.PostTime>
+              <S.PostType>SE NECESITA QUIEN...</S.PostType>
+              <S.PostTitle>haga mantenimiento de piscinas</S.PostTitle>
+              <S.PostLocation>Puerto Colombia</S.PostLocation>
+            </S.PostContainer>
+
+            {/* <S.PostContainer>
+              <div>asjas askakaka akas ka sas ka skasasa ska sa skas ka sak ska sasasa k ska ska ska ska saks aks asasasasasa k ska ska ska ska saks aks asasasasasa k ska ska ska ska saks aks asasa sasas k aks aksak ska ska ska ska sak saks aks aks ak sak sasasasasas k kasasaksas  assasaskaskasa sa aasasas</div>
+            </S.PostContainer> */}
+
+            <Post icon={service_icon} title="Carpintero de muebles" type="SE NECESITA..." location="Barranquilla" time="hace 8 minutos" description="Se requiere carpintero para reparacion de muebles antiguos." />       
+            <Post icon={mail} title="Repare cortinas" type="SE NECESITA QUIEN..." location="Barranquilla" time="hace 15 mimutos" />
+            <Post icon={drill_icon} title="Haga mantenimiento de piscinas" type="SE NECESITA QUIEN..." location="Puerto colombia" time="hace 2 horas" />
+
+            <Post icon={mail} title="Repare lavadoras" type="SE NECESITA QUIEN..." location="Soledad" time="hace 3 dias" />
+
+
+        {/* <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a> */}
+
+        {/* <Select
+          label="Choose country"
+          values={countries}
+          onChange={(v) => console.log(v)}
+        /> */}
+      </header>
+    </div>
+  );
+}
+
+export default App;
