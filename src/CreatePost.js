@@ -47,7 +47,7 @@ function Register() {
     setShowModal(prev => !prev);
   };
 
-  const clickOnPreview =(image) => {
+  const clickOnPreview = (image) => {
     console.log('La imagen seleccionada es:', image)
     setSelectedImage(image);
     // openModal();
@@ -127,7 +127,7 @@ function Register() {
       body: JSON.stringify(info)
   };
   // fetch('/posts', requestOptions)
-  fetch(process.env.REACT_APP_BACKEND_SERVER123 + '/posts', requestOptions)
+  fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts', requestOptions)
 
       .then(response => response.json())
       .then(data => setPostId(data._id));
@@ -141,7 +141,8 @@ function Register() {
     <div className="App">
       <header className="App-header">
         <Link to="/">
-          <S.Title>REBUSCATE.com</S.Title>
+          {/* <S.Title>REBUSCATE.com</S.Title> */}
+          <S.Title>rebuscate<span style={{ "color": "red" }}>.com</span></S.Title>
         </Link>
         <S.SubtitleDecoration>
           <S.Subtitle  onClick={openModal}>CREAR ANUNCIO</S.Subtitle>

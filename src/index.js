@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import Home from './Home';
-import { AuthContextProvider} from './contexts/AuthContext'
+// import { AuthContextProvider} from './contexts/AuthContext'
 import { AuthProvider} from './contexts/AuthProvider'
 import reportWebVitals from './reportWebVitals';
 

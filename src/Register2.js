@@ -104,7 +104,8 @@ function Register() {
 <div className="App">
       <header className="App-header1">
         <Link to="/">
-          <S.Title>REBUSCATE.com</S.Title>
+          {/* <S.Title>REBUSCATE.com</S.Title> */}
+          <S.Title>rebuscate<span style={{ "color": "red" }}>.com</span></S.Title>
         </Link>
 
       </header>

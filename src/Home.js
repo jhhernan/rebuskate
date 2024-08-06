@@ -1,18 +1,18 @@
 import logo from './logo.svg';
 import { useState, useEffect } from 'react';
-import { format, formatDistance, intlFormatDistance, formatRelative, subDays } from 'date-fns';
+import { intlFormatDistance, formatRelative, subDays } from 'date-fns';
 import { Link } from 'react-router-dom';
 import './App.css';
 import * as S from './styled';
 import mail from './img/mail.png';
 import service_icon from './img/service_icon.png';
 import drill_icon from './img/drill_icon.png';
+import spinner from './img/spinner.gif';
 
 import useRefreshToken from './hooks/useRefreshToken';
 
 import useAxiosPrivate from './hooks/useAxiosPrivate';
 
-import Select from './Select';
 import Post from './components/Post'
 
 function App() {
@@ -20,6 +20,8 @@ function App() {
   const [PostsList, setPosts] = useState([]);
   const [department, setDepartment] = useState("");
   const [city, setCity] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const  refresh  = useRefreshToken();
   const axiosPrivate = useAxiosPrivate();
@@ -34,13 +36,14 @@ function App() {
     const getUsers = async () => {
       console.log('Voy a intentar axios...')
       try {
-        const response = await axiosPrivate.get(process.env.REACT_APP_BACKEND_SERVER123 + '/posts', {
+        const response = await axiosPrivate.get(process.env.REACT_APP_BACKEND_SERVER + '/posts', {
           signal: controller.signal
         })
 
         console.log('La respuesta:', response.data);
 
         setPosts(response.data);
+        setIsLoading(false);
 
       } catch (err) {
         console.log('El error es:', err)
@@ -73,18 +76,6 @@ function App() {
 
 
 
-
-  // const PostsList = [{ icon: "service_icon", title: "Repare secadoras", type: "SE NECESITA QUIEN...", location: "Malambo", time: "hace 2 dias", description: "Se requiere tecnico que repare una secadora marca Whirlpool. No enciende" },
-  // { icon: "drill_icon", title: "Plomero", type: "SE NECESITA...", location: "Barranquilla", time: "hace 5 minutos" },
-  // { icon: "mail", title: "Electricista", type: "SE NECESITA...", location: "Cartagena", time: "hace 10 minutos" },
-  // { icon: "mail", title: "Obrero", type: "SE NECESITA...", location: "Barranquilla", time: "hace 20 minutos" },
-  // { icon: "service_icon", title: "Repare lavadoras", type: "SE NECESITA QUIEN...", location: "Soledad", time: "hace 20 horas" },
-  // { icon: "service_icon", title: "Repare secadoras", type: "SE NECESITA QUIEN...", location: "Santa Marta", time: "hace 2 dias" },
-  // { icon: "mail", title: "Pintor", type: "SE NECESITA...", location: "Barranquilla", time: "hace 3 dias", description: "Se requiere pintor para cambiar color a paredilla de 2 x 10 mts" },
-  // { icon: "drill_icon", title: "Lave muebles", type: "SE NECESITA QUIEN...", location: "Barranquilla", time: "hace 10 dias" }
-  // ];
-
-
   const getComponentFromString = (name) => {
     switch (name) {
       case 'service_icon':
@@ -110,8 +101,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <S.Title>REBUSCATE.com</S.Title>
-
+        <S.Title>rebuscate<span style={{ "color": "red" }}>.com</span></S.Title>
         <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
         <S.ButtonContainer>
           <Link to="/create" style={{ textDecoration: 'none' }} >
@@ -166,6 +156,7 @@ function App() {
           </select>
         </S.SelectorContainer>
 
+        {isLoading && <img style={{ "width": "40px", "align-self": "center", "padding-top": "50px" }} src={spinner} alt="loading..." />}
 
         {PostsList &&
           (city
@@ -188,8 +179,6 @@ function App() {
                 description={post.description}
                 type={post.type}
                 location={post.location}
-                // time={post.time}
-                // time={formatDistance(new Date(post.createdAt), new Date(), { addSuffix: true })}
                 time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
               />
             )))}

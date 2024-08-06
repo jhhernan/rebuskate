@@ -5,7 +5,6 @@ import Login from './Login';
 import Register from './Register';
 import Register2 from './Register2';
 import Register3 from './Register3';
-import Start from './Start';
 import SignUp from './SignUp';
 
 
@@ -13,7 +12,6 @@ const App = () => {
    return (
       <Routes>
          <Route path="/" element={<Home />} />
-         <Route path="/start" element={<Start />} />
          <Route path="/register" element={<Register />} />
          <Route path="/create" element={<CreatePost />} />
          <Route path="/register2" element={<Register2 />} />
