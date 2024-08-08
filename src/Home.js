@@ -18,6 +18,7 @@ import Post from './components/Post'
 function App() {
 
   const [PostsList, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [department, setDepartment] = useState("");
   const [city, setCity] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -43,6 +44,7 @@ function App() {
         console.log('La respuesta:', response.data);
 
         setPosts(response.data);
+        setFilteredPosts(response.data);
         setIsLoading(false);
 
       } catch (err) {
@@ -90,12 +92,16 @@ function App() {
   };
 
   const handleDepartmentChange = (e) => {
+    console.log('Departamento:', e.target.value);
+    console.log('Filtrando...:', PostsList.filter(post => post.department === department))
     setDepartment(e.target.value);
     setCity("");
+    setFilteredPosts(PostsList.filter(post => post.department === e.target.value));
   };
 
   const handleCityChange = (e) => {
     setCity(e.target.value);
+    setFilteredPosts(PostsList.filter(post => post.department === department && post.city === e.target.value));
   };
 
   return (
@@ -158,7 +164,7 @@ function App() {
 
         {isLoading && <img style={{ "width": "40px", "align-self": "center", "padding-top": "50px" }} src={spinner} alt="loading..." />}
 
-        {PostsList &&
+        {/* {PostsList &&
           (city
             ? PostsList.filter(item => item.location === city).map((post, idx) => (
               <Post
@@ -181,7 +187,20 @@ function App() {
                 location={post.location}
                 time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
               />
-            )))}
+            )))} */}
+
+{ filteredPosts.map((post, idx) => (
+              <Post
+                key={idx}
+                icon={getComponentFromString(post.icon)}
+                title={post.title}
+                description={post.description}
+                type={post.type}
+                location={post.location}
+                time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
+              />
+            ))
+            }
 
       </header>
     </div>

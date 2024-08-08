@@ -9,6 +9,7 @@ export const Title = styled.div`
     color: black;
     text-decoration: underline;
     text-decoration-color: black;
+    margin-top: 20px;
 `;
 
 export const Title2 = styled.div`
