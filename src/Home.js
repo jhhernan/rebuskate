@@ -107,7 +107,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <S.Title>rebuscate<span style={{ "color": "red" }}>.com</span></S.Title>
+        <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
         <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
         <S.ButtonContainer>
           <Link to="/create" style={{ textDecoration: 'none' }} >

@@ -5,8 +5,8 @@ import mail from './img/mail.png';
 export const Title = styled.div`
     // font-size: 50px;
     font-size: 11vw;
-    // color: red;
-    color: black;
+    color: red;
+    // color: black;
     text-decoration: underline;
     text-decoration-color: black;
     margin-top: 20px;
