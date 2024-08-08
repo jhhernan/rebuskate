@@ -142,7 +142,7 @@ function Register() {
       <header className="App-header">
         <Link to="/">
           {/* <S.Title>REBUSCATE.com</S.Title> */}
-          <S.Title>rebuscate<span style={{ "color": "red" }}>.com</span></S.Title>
+          <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
         </Link>
         <S.SubtitleDecoration>
           <S.Subtitle  onClick={openModal}>CREAR ANUNCIO</S.Subtitle>
