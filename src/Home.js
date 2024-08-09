@@ -111,7 +111,7 @@ function App() {
         <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
         <S.ButtonContainer>
           <Link to="/create" style={{ textDecoration: 'none' }} >
-            <S.Button>CREAR ANUNCIOS</S.Button>
+            <S.Button>CREAR ANUNCIO</S.Button>
           </Link>
           <S.Icon src={mail}></S.Icon>
         </S.ButtonContainer>

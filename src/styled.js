@@ -364,6 +364,35 @@ export const PostExtended = styled.article`
   visibility: ${props => props.isVisible ? "none" : "hidden"};
 `;
 
+export const NotificationChooser = styled.div`
+
+  text-align: left;
+  text-justify: auto;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 10px;
+  font-size: 12px;
+  visibility: ${props => props.isVisible ? "none" : "hidden"};
+`;
+
+export const NotifyButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // padding: 10px 20px;
+  // font-size: 16px;
+  background-color: red;
+  color: white; /* Text color */
+  // border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  margin-bottom: 5px; /* Space between buttons */
+  width: 80px;
+
+
+`;
+
+
+
 export const PostLocation = styled.article`
   position: absolute;
   right: 10px;
