@@ -342,6 +342,15 @@ export const PostTitle = styled.article`
   left: 30px;
   top: 40px;
   font-size: 14px;
+
+  visibility: ${props => props.isVisible ? "none" : "hidden"};
+  text-align: left;
+  text-justify: auto;
+  text-overflow: ellipsis;
+  display:inline-block;
+  white-space: nowrap;
+  overflow: hidden; 
+  width: 90%;
 `;
 
 
@@ -359,8 +368,8 @@ export const PostExtended = styled.article`
   text-justify: auto;
   margin-left: 30px;
   margin-right: 30px;
-  margin-top: 70px;
-  font-size: 12px;
+  margin-top: 40px;
+  font-size: 14px;
   visibility: ${props => props.isVisible ? "none" : "hidden"};
 `;
 

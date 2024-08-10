@@ -116,8 +116,8 @@ function Register() {
       notifyApp,
       imageList,
       type: "SE NECESITA....",
-      title: 'Texto de prueba para el titulo.',
-      icon: "service_icon"
+      // title: 'Texto de prueba para el titulo.',
+      // icon: "service_icon"
 
     }
 
