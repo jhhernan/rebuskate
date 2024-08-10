@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import * as S from '../styled';
 
-const Post = ({ title, description, type, time, location })  => {
+const Post = ({ title, description, type, time, location, post })  => {
 
   const [extended, setExtended] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
 
+  const { notifyWhatsapp, notifyApp, notifyCall } = post;
+
+
   const handleNotifyClick = (event) => {
     event.stopPropagation();
+    console.log('Presionado boton')
     setShowOptions(!showOptions);
 };
 
@@ -27,9 +31,9 @@ const Post = ({ title, description, type, time, location })  => {
                     {/* <div className="my-button" >
                         SMS
                     </div> */}
-                    <S.NotifyButton onClick={handleNotifyClick}>LLAMAR</S.NotifyButton>
-                    <S.NotifyButton onClick={handleNotifyClick}>WHATSAPP</S.NotifyButton>
-                    <S.NotifyButton onClick={handleNotifyClick}>E-MAIL</S.NotifyButton>
+                    {notifyCall && (<S.NotifyButton><a href={"tel:"+notifyCall} style={{"text-decoration":"none", "color": "white" }}>LLAMAR</a></S.NotifyButton>)}
+                    {notifyWhatsapp && (<S.NotifyButton><a href={"https://wa.me/57"+notifyWhatsapp+"?text="+encodeURIComponent("Estoy interesado en la publicacion: "+title)} style={{"text-decoration":"none", "color": "white" }}>WHATSAPP</a></S.NotifyButton>)}
+                    {notifyApp && (<S.NotifyButton >E-MAIL</S.NotifyButton>)}
                     {/* <div className="my-button"  style={{ marginTop: '10px' }}>
                         Call
                     </div>

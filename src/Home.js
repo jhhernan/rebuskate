@@ -192,6 +192,7 @@ function App() {
 { filteredPosts.map((post, idx) => (
               <Post
                 key={idx}
+                post={post}
                 icon={getComponentFromString(post.icon)}
                 title={post.title}
                 description={post.description}
