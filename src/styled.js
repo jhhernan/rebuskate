@@ -311,8 +311,11 @@ export const Test = styled.input`
 
 export const PostContainer = styled.div`
 width: calc(100% - 90px);
-height: ${props => props.extended ? "185px" : "85px"};
-// min-height: 85px;
+// height: ${props => props.extended ? "185px" : "85px"};  //Cambiado 11/Ago
+// Añadido 11/Ago
+min-height: ${props => props.extended ? "185px" : "85px"};
+height: ${props => props.extended ? "auto" : "85px"};  
+
 margin-left: 45px;
 margin-right: 45px;
 margin-bottom: 5px;
@@ -389,6 +392,7 @@ export const NotificationChooser = styled.div`
   margin-left: 30px;
   margin-right: 30px;
   margin-top: 10px;
+  margin-bottom: 10px;
   font-size: 12px;
   visibility: ${props => props.isVisible ? "none" : "hidden"};
 `;

@@ -139,6 +139,8 @@ function Register() {
       notifyCall: notifyCall ? form.phone : null,
       notifyApp,
       imageList,
+      city: selectedCity,
+      department: selectedDepartment,
       type: "SE NECESITA....",
       // title: 'Texto de prueba para el titulo.',
       // icon: "service_icon"
