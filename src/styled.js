@@ -173,6 +173,7 @@ export const Button = styled.div`
 `;
 
 export const PublishButton = styled.button`
+    display: ${props => props.isVisible ? "block" : "none"};
     border: none;
     // background-color: #24a0ed;
     background-color: red;
@@ -193,6 +194,14 @@ export const PublishButton = styled.button`
 
     &:hover {
         background-color: #707070;
+    }
+    
+    &:active {
+        background-color: #505050; /* Darker shade for click */
+    }
+
+    &:focus {
+        background-color: red; /* Reset to original background color */
     }
 `
 
@@ -395,7 +404,7 @@ export const NotifyButton = styled.div`
   // border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Changes cursor to pointer on hover */
   margin-bottom: 5px; /* Space between buttons */
-  width: 80px;
+  width: 90px;
 
 
 `;

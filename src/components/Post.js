@@ -33,7 +33,7 @@ const Post = ({ title, description, type, time, location, post })  => {
                     </div> */}
                     {notifyCall && (<S.NotifyButton><a href={"tel:"+notifyCall} style={{"text-decoration":"none", "color": "white" }}>LLAMAR</a></S.NotifyButton>)}
                     {notifyWhatsapp && (<S.NotifyButton><a href={"https://wa.me/57"+notifyWhatsapp+"?text="+encodeURIComponent("Estoy interesado en la publicacion: "+title)} style={{"text-decoration":"none", "color": "white" }}>WHATSAPP</a></S.NotifyButton>)}
-                    {notifyApp && (<S.NotifyButton >E-MAIL</S.NotifyButton>)}
+                    {notifyApp && (<S.NotifyButton >ENVIAR PERFIL</S.NotifyButton>)}
                     {/* <div className="my-button"  style={{ marginTop: '10px' }}>
                         Call
                     </div>

@@ -1,7 +1,11 @@
 import logo from './logo.svg';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import CitySelector from './CitySelector';
+import ErrorLabel from './components/ErrorLabel';
+import SuccessLabel from './components/SuccessLabel';
+
 import './App.css';
 import * as S from './styled';
 
@@ -20,12 +24,16 @@ import Modal2 from './components/NewModal/Modal';
 function Register() {
 
   const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [description, setDescription] = useState("");
   const [form, setForm] = useState();
   const [postId, setPostId] = useState("");
   const [notifyCall, setNotifyCall] = useState(false);
   const [notifyWhatsapp, setNotifyWhatsapp] = useState(false);
   const [notifyApp, setNotifyApp] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState(null);
+
 
   const [imageToUpload, setImageToUpload] = useState();
   const [preview1, setPreview1] = useState(null);
@@ -33,6 +41,7 @@ function Register() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   
+  const navigate = useNavigate();  // Initialize navigate
 
   //Testing...
   const [showModalNew, setShowModalNew] = useState(false);
@@ -105,7 +114,22 @@ function Register() {
 
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
+    setError(null);
+    //Validaciones
+    if (!selectedCity || !selectedDepartment){
+      setError('Favor escoger ciudad y departamento!');
+      return;
+    }
+    if (!description || description.length<20){
+      setError('Favor realizar descripcion del servicio requerido.');
+      return;
+    }
+    if (!notifyWhatsapp && !notifyCall && !notifyApp){
+      setError('Favor escoger al menos una opcion de contacto');
+      return;
+    }
+
     console.log('Form:', form)
     const info = {
       location: selectedCity,
@@ -120,20 +144,58 @@ function Register() {
       // icon: "service_icon"
 
     }
+    setCreating(true);
 
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info)
   };
-  // fetch('/posts', requestOptions)
-  fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts', requestOptions)
+  // try {
+  //   const doPost = await fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts', requestOptions);
+  //   const resultPost = await doPost.json();
+  //   console.log('Se creo el post:', resultPost._id);
 
-      .then(response => response.json())
-      .then(data => setPostId(data._id));
+  // }catch (err){
+  //   console.log('El error', err.message)
+  // }
 
-    console.log('Esto es lo que voy a mandar:', info);
-    console.log('se registro el post:', postId);
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts', requestOptions);
+      const result = await response.json();
+      setPostId(result._id);  // Update with fetched data
+      console.log('result', result._id);
+      setTimeout(() => {
+        navigate('/');  // Assuming '/' is your main page
+      }, 5000);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setCreating(false);  // End loading
+    }
+
+  // fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts', requestOptions)
+
+  //     .then(response => {
+  //       if(response.status!==200)
+  //         {
+  //            throw new Error(response.message)
+  //         }  
+  //       response.json()
+  //     })
+  //     .then(data => setPostId(data._id))
+  //     .catch((err) => {
+  //       console.log('Error has ocurred');
+  //       setError("No se ha podido crear la publicacion");
+  //      })
+  //      .finally(()=>{
+  //       setCreating(false);
+  //      })
+
+
+  //   console.log('Esto es lo que voy a mandar:', info);
+  //   console.log('se registro el post:', postId);
+  setCreating(false);
 
   }
 
@@ -149,7 +211,7 @@ function Register() {
         </S.SubtitleDecoration>
        
         <S.Tag>Ubicacion:</S.Tag>
-        <CitySelector selectCity={setSelectedCity}/>
+        <CitySelector selectCity={setSelectedCity} selectDepartment={setSelectedDepartment}/>
 
         <S.Tag>Escribe lo que necesitas:</S.Tag>
 
@@ -241,8 +303,12 @@ function Register() {
         {/* {showModalNew && <Modal2 onClose={closeModalNew} imgUrl={selectedImage} remover={deleteSelectedImage} />} */}
          {/* Testing */}
 
+         {error && ( <ErrorLabel label={error} /> )}
+         {postId && ( <SuccessLabel label={"La publicacion ha sido creada exitosamente!"} /> )}
         <br/>
-        <S.PublishButton onClick={()=>{handleSubmit()}}>Publicar</S.PublishButton>
+        {!creating ? (<S.PublishButton isVisible={!postId} onClick={()=>{handleSubmit()}}>Publicar</S.PublishButton>) : 
+        <img style={{ "width": "40px", "align-self": "center", "padding-top": "10px" }} src={spinner} alt="loading..." />}
+        {/* <S.PublishButton onClick={()=>{handleSubmit()}}>Publicar</S.PublishButton> */}
         {/* <button onClick={()=>{handleSubmit()}} style={{"font-size":"18px"}}>Ingresar</button> */}
         
 	{/* <h1>Seccion de Registro</h1>

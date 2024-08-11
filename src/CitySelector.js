@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import * as S from './styled';
 
-function CitySelector({selectCity}) {
+function CitySelector({selectCity, selectDepartment}) {
 
   const [department, setDepartment] = useState("");
   const [city, setCity] = useState("");
@@ -10,6 +10,9 @@ function CitySelector({selectCity}) {
   const handleDepartmentChange = (e) => {
     setDepartment(e.target.value);
     setCity("");
+    if (selectDepartment){
+      selectDepartment(e.target.value);
+    }
   };
 
   const handleCityChange = (e) => {
