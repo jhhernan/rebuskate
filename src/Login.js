@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useLogin } from './hooks/useLogin';
 import CitySelector from './CitySelector';
 import './App.css';
@@ -13,12 +14,64 @@ import InputField from './components/InputField';
 
 import useRefreshToken from './hooks/useRefreshToken';
 
+import { AxiosError } from 'axios';
 import axios from './api/axios';
 import useAuth from './hooks/useAuth';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
-function Login() {
+const Login = () => {
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+
 
   const { setAuth } = useAuth();
+
+  const [errorMessage, setErrorMessage ] = useState("");
+
+  const onSubmit = async(info) => {
+
+    axios.post(process.env.REACT_APP_BACKEND_SERVER + '/users/signin',
+    { email: info.email, password: info.password })
+    .then((res)=>{
+        if(res.status === 200){
+            if(signIn({
+                auth: {
+                    token: res.data.token,
+                    type: 'Bearer'
+                },
+                // refresh: res.data.refreshToken
+                userState: res.data.authUserState
+            })){ // Only if you are using refreshToken feature
+                // Redirect or do-something
+            }
+            else {
+                //Throw error
+                console.log('Error!!!!!!!!!!');
+            }
+
+            navigate("/");
+        }
+    })
+    .catch((err)=>{
+      console.log('Error')
+      setErrorMessage('Revise sus credenciales');
+    })
+
+    // setErrorMessage("");
+
+    // try {
+    //   const response = await axios.post(
+    //     process.env.REACT_APP_BACKEND_SERVER + '/users/signin',
+    //     { email: info.email, password: info.password },
+    //   );
+    // }catch(err){
+    //   if (err && err instanceof AxiosError) setErrorMessage(err.response?.data.message);
+    //   else if (err && err instanceof Error) setErrorMessage(err.message);
+
+    //   console.log('Error: ', err)
+    // }
+  }
+  
 
   const handleRegister = async () => {
     // if button enabled with JS hack
@@ -132,7 +185,7 @@ const handleSubmitDemo = async () => {
 
   const handleSubmit = () => {
     const info = {
-      type: type1 ? "SE NECESITA..." : "SE NECESITA QUIEN...",
+      type: type1 ? "SE NECESITA...." : "SE NECESITA QUIEN...",
       location: selectedCity,
       title: type1 ? type1 : type2,
       description,
@@ -184,8 +237,8 @@ const handleSubmitDemo = async () => {
       <Form title='Iniciar Sesion'>
         <InputField label={"Correo Electronico"} onChange={ e => {setInfo({...info, email: e.target.value})}}/>
         <InputField label={"Clave"} type='password' onChange={ e => {setInfo({...info, password: e.target.value})}}/>
-        {error && ( <ErrorLabel label={error} /> )}
-        <Button title="Ingresar" type='button' onClick={handleForm}/>
+        {errorMessage && ( <ErrorLabel label={errorMessage} /> )}
+        <Button title="Ingresar" type='button' onClick={()=>{onSubmit(info)}}/>
       </Form>
 
       <br />
