@@ -135,6 +135,8 @@ function Register() {
         <Button title="Registrar" type='button' disabled={isLoading} onClick={handleForm}/>
 
       </Form>
+      <br />
+      <div>Ya tienes usuario? <a href={"/login"}>Ingresa aqui</a></div>
      </div>
     </>
   );

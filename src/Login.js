@@ -240,6 +240,7 @@ const handleSubmitDemo = async () => {
         {errorMessage && ( <ErrorLabel label={errorMessage} /> )}
         <Button title="Ingresar" type='button' onClick={()=>{onSubmit(info)}}/>
       </Form>
+      <div>No tienes usuario? <a href={"/register2"}>Registrate</a></div>
 
       <br />
      </div>
