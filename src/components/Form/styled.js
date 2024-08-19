@@ -6,7 +6,7 @@ export const FormContainer = styled.form`
     justify-content: space-evenly;
     transition: all 0.5s;
     width: 30%;
-    height: 70%;
+    min-height: 70%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
     border-radius: 3px;
     padding: 0 2rem;

@@ -152,7 +152,7 @@ function Register() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info)
-  };
+    };
   // try {
   //   const doPost = await fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts', requestOptions);
   //   const resultPost = await doPost.json();
