@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import * as S from '../styled';
 
-const Post = ({ title, description, type, time, location, post })  => {
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+
+
+const Post = ({ title, description, type, time, location, post, _id })  => {
+
+
+  const authHeader = useAuthHeader();
 
   const [extended, setExtended] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -13,7 +19,40 @@ const Post = ({ title, description, type, time, location, post })  => {
     event.stopPropagation();
     console.log('Presionado boton')
     setShowOptions(!showOptions);
-};
+  };
+
+  const sendProfile = async (event) => {
+    event.stopPropagation();
+
+    console.log('El usuario quiere aplicar al post:', post._id);
+
+    const info = {
+      postId: post._id
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authHeader
+      },
+      body: JSON.stringify(info)
+    };
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_SERVER + '/posts/interest', requestOptions);
+      const result = await response.json();
+      // console.log('result', result._id);
+      // setTimeout(() => {
+      //   navigate('/');  // Assuming '/' is your main page
+      // }, 5000);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      // setCreating(false);  // End loading
+      console.log('Listo v1!');
+    }
+  }
+
 
   return (
     <S.PostContainer extended={extended} onClick={()=>{setExtended(!extended)}}>
@@ -33,7 +72,7 @@ const Post = ({ title, description, type, time, location, post })  => {
                     </div> */}
                     {notifyCall && (<S.NotifyButton><a href={"tel:"+notifyCall} style={{"text-decoration":"none", "color": "white" }}>LLAMAR</a></S.NotifyButton>)}
                     {notifyWhatsapp && (<S.NotifyButton><a href={"https://wa.me/57"+notifyWhatsapp+"?text="+encodeURIComponent("Estoy interesado en la publicacion: " + description)} style={{"text-decoration":"none", "color": "white" }}>WHATSAPP</a></S.NotifyButton>)}
-                    {notifyApp && (<S.NotifyButton >ENVIAR PERFIL</S.NotifyButton>)}
+                    {notifyApp && (<S.NotifyButton onClick={sendProfile} >ENVIAR PERFIL</S.NotifyButton>)}
                     {/* <div className="my-button"  style={{ marginTop: '10px' }}>
                         Call
                     </div>

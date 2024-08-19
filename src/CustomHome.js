@@ -13,7 +13,7 @@ import useRefreshToken from './hooks/useRefreshToken';
 
 import useAxiosPrivate from './hooks/useAxiosPrivate';
 
-import Post from './components/Post'
+import CustomPost from './components/CustomPost'
 
 function App() {
 
@@ -116,9 +116,9 @@ function App() {
           <S.Icon src={mail}></S.Icon>
         </S.ButtonContainer>
 
-        <S.Description>Tus oportunidades para hoy...</S.Description>
+        <S.Description>Las ofertas que has publicado...</S.Description>
 
-        <S.Tag>Ubicacion:</S.Tag>
+        {/* <S.Tag>Ubicacion:</S.Tag>
         <S.SelectorContainer>
           <select style={{ "background-color": "black", "color": "white",  "flex": "1", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "text-align": "center", "margin": "3px"}} 
             onChange={handleDepartmentChange} value={department}>
@@ -160,7 +160,7 @@ function App() {
               <><option key="Corozal">Corozal</option><option key="Sincelejo">Sincelejo</option></>
             )}
           </select>
-        </S.SelectorContainer>
+        </S.SelectorContainer> */}
 
         {isLoading && <img style={{ "width": "40px", "align-self": "center", "padding-top": "50px" }} src={spinner} alt="loading..." />}
 
@@ -190,7 +190,7 @@ function App() {
             )))} */}
 
 { filteredPosts.map((post, idx) => (
-              <Post
+              <CustomPost
                 key={idx}
                 post={post}
                 icon={getComponentFromString(post.icon)}
