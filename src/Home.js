@@ -113,7 +113,9 @@ function App() {
           <Link to="/create" style={{ textDecoration: 'none' }} >
             <S.Button>CREAR ANUNCIO</S.Button>
           </Link>
-          <S.Icon src={mail}></S.Icon>
+          <Link to="/custom" style={{ textDecoration: 'none' }} >
+            <S.Icon src={mail}></S.Icon>
+          </Link>
         </S.ButtonContainer>
 
         <S.Description>Tus oportunidades para hoy...</S.Description>

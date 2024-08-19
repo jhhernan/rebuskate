@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import { useState } from 'react';
 import { useSignup } from './hooks/useSignup';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import CitySelector from './CitySelector';
 import './App.css';
 import * as S from './styled';
@@ -24,10 +26,12 @@ function Register() {
 
   const { signup, isLoading, error } = useSignup();
 
+  const navigate = useNavigate();  // Initialize navigate
 
 
   const handleForm = async () => {
     // await signup(info);
+
 
     if (info.email.toLowerCase() !== info.emailCheck.toLowerCase()){
       console.log('Los emails no concuerdan!', info.email, info.emailCheck);
@@ -44,6 +48,9 @@ function Register() {
 
     // console.log('Esto es lo que voy a mandar:', info);
     console.log('se registro el post:', postId);
+    navigate("/login");
+
+    // falta agregar manejo de errores OJO!!!!
   }
 
   const handleType1Change = (e) => {

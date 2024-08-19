@@ -215,7 +215,8 @@ function Register() {
           <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
         </Link>
         <S.SubtitleDecoration>
-          <S.Subtitle  onClick={openModal}>CREAR ANUNCIO</S.Subtitle>
+          {/* <S.Subtitle  onClick={openModal}>CREAR ANUNCIO</S.Subtitle> */}
+          <S.Subtitle>CREAR ANUNCIO</S.Subtitle>
         </S.SubtitleDecoration>
        
         <S.Tag>Ubicacion:</S.Tag>
