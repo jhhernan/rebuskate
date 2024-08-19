@@ -11,6 +11,8 @@ import Button from './components/Button';
 import Form from './components/Form';
 import ErrorLabel from './components/ErrorLabel';
 import InputField from './components/InputField';
+import InputPassword from './components/InputPassword';
+
 
 import useRefreshToken from './hooks/useRefreshToken';
 
@@ -23,12 +25,15 @@ const Login = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(true);
+
 
   const { setAuth } = useAuth();
 
   const [errorMessage, setErrorMessage ] = useState("");
 
   const onSubmit = async(info) => {
+
 
     axios.post(process.env.REACT_APP_BACKEND_SERVER + '/users/signin',
     { email: info.email, password: info.password })
@@ -37,7 +42,8 @@ const Login = () => {
             if(signIn({
                 auth: {
                     token: res.data.token,
-                    type: 'Bearer'
+                    type: 'Bearer',
+                    authState: { "email": info.email },
                 },
                 // refresh: res.data.refreshToken
                 userState: res.data.authUserState
@@ -72,6 +78,9 @@ const Login = () => {
     // }
   }
   
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  }
 
   const handleRegister = async () => {
     // if button enabled with JS hack
@@ -236,8 +245,9 @@ const handleSubmitDemo = async () => {
 
       <Form title='Iniciar Sesion'>
         <InputField label={"Correo Electronico"} onChange={ e => {setInfo({...info, email: e.target.value})}}/>
-        <InputField label={"Clave"} type='password' onChange={ e => {setInfo({...info, password: e.target.value})}}/>
-        {errorMessage && ( <ErrorLabel label={errorMessage} /> )}
+        <InputPassword label={"Clave"} type={showPassword ? "text": "password"}
+            onChange={ e => {setInfo({...info, password: e.target.value})}}/>
+              {errorMessage && ( <ErrorLabel label={errorMessage} /> )}
         <Button title="Ingresar" type='button' onClick={()=>{onSubmit(info)}}/>
       </Form>
       <div>No tienes usuario? <a href={"/register2"}>Registrate</a></div>

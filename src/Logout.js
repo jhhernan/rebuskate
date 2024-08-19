@@ -8,6 +8,8 @@ import * as S from './styled';
 
 import Button from './components/Button';
 import Form from './components/Form';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 const Logout = () => {
   const signOut = useSignOut()
@@ -18,7 +20,13 @@ const Logout = () => {
     navigate("/");
   }
   
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader()
 
+  console.log('Testing v1:', auth);
+
+console.log('Testing v2:', authHeader);
+  
   return (
     <>
             {/* <Link to="/">
@@ -47,6 +55,9 @@ const Logout = () => {
       }}>
 
       <Form title='Salir de Sesion'>
+        <div>Prueba:{auth.user}</div>
+        <div>Prueba2:{authHeader}</div>
+
         <Button title="Salir" type='button' onClick={()=>{onSubmit()}}/>
       </Form>
 

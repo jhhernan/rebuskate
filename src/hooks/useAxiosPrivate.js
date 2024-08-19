@@ -3,9 +3,15 @@ import { useEffect } from "react";
 import useRefreshToken from "./useRefreshToken";
 import useAuth from "./useAuth";
 
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+
+
 const useAxiosPrivate = () => {
     const refresh = useRefreshToken();
     const { auth } = useAuth();
+
+    const authHeader = useAuthHeader();
+
 
     console.log('Dentro del useAxiosPrivate');
 
@@ -15,7 +21,8 @@ const useAxiosPrivate = () => {
             config => {
                 if (!config.headers['Authorization']) {
                     console.log('Entre en el interceptor');
-                    config.headers['Authorization'] = `Bearer ${auth?.accessToken}`;
+                    // config.headers['Authorization'] = `Bearer ${auth?.accessToken}`;
+                    config.headers['Authorization'] =  authHeader;
                 }
                 return config;
             }, (error) => Promise.reject(error)
@@ -39,7 +46,7 @@ const useAxiosPrivate = () => {
             axiosPrivate.interceptors.request.eject(requestIntercept);
             axiosPrivate.interceptors.response.eject(responseIntercept);
         }
-    }, [auth, refresh])
+    }, [auth, refresh, authHeader])
 
     return axiosPrivate;
 }

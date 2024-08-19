@@ -27,23 +27,23 @@ function Register() {
 
 
   const handleForm = async () => {
-    await signup(info);
+    // await signup(info);
 
-    // if (info.email.toLowerCase() !== info.emailCheck.toLowerCase()){
-    //   console.log('Los emails no concuerdan!', info.email, info.emailCheck);
-    // }
-    // console.log('Vamos a enviar:', info);
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({...info})
-    // };
-    // fetch('http://192.168.2.7:3000/users/signup', requestOptions)
-    //   .then(response => response.json())
-    //   // .then(data => setCompleted(true));
+    if (info.email.toLowerCase() !== info.emailCheck.toLowerCase()){
+      console.log('Los emails no concuerdan!', info.email, info.emailCheck);
+    }
+    console.log('Vamos a enviar:', info);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({...info})
+    };
+    fetch(process.env.REACT_APP_BACKEND_SERVER + '/users/signup', requestOptions)
+      .then(response => response.json())
+      // .then(data => setCompleted(true));
 
-    // // console.log('Esto es lo que voy a mandar:', info);
-    // console.log('se registro el post:', postId);
+    // console.log('Esto es lo que voy a mandar:', info);
+    console.log('se registro el post:', postId);
   }
 
   const handleType1Change = (e) => {

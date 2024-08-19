@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
+import CustomHome from './CustomHome';
 import CreatePost from './CreatePost';
 import Login from './Login';
 import Logout from './Logout';
@@ -14,6 +15,12 @@ const App = () => {
    return (
       <Routes>
          <Route path="/" element={<Home />} />
+         {/* <Route path="/custom" element={<CustomHome />} /> */}
+         <Route path={'/custom'} element={
+            <RequireAuth fallbackPath={'/login'}>
+               <CustomHome />
+            </RequireAuth>
+         } />
          <Route path="/register" element={<Register />} />
          {/* <Route path="/create" element={<CreatePost />} /> */}
          <Route path={'/create'} element={

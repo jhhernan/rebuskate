@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import CitySelector from './CitySelector';
 import ErrorLabel from './components/ErrorLabel';
 import SuccessLabel from './components/SuccessLabel';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 import './App.css';
 import * as S from './styled';
@@ -22,6 +23,8 @@ import Modal2 from './components/NewModal/Modal';
 
 
 function Register() {
+
+  const authHeader = useAuthHeader();
 
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
@@ -134,7 +137,7 @@ function Register() {
     const info = {
       location: selectedCity,
       description,
-      owner: 'web',
+      // owner: 'web',
       notifyWhatsapp: notifyWhatsapp ? form.whatsapp : null,
       notifyCall: notifyCall ? form.phone : null,
       notifyApp,
@@ -150,7 +153,10 @@ function Register() {
 
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authHeader
+       },
       body: JSON.stringify(info)
     };
   // try {
