@@ -398,23 +398,23 @@ export const NotificationChooser = styled.div`
 `;
 
 export const NotifyButton = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  // padding: 10px 20px;
-  // font-size: 16px;
-  background-color: red;
-  color: white; /* Text color */
-  // border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Changes cursor to pointer on hover */
-  margin-bottom: 5px; /* Space between buttons */
-  width: 120px;
-  min-height: 25px;
-  font-size: calc(1vw + 1vh); /* Scales with viewport size */
-  // font-size: 2vw;
-  box-sizing: border-box;
-  white-space: nowrap; /* Prevent wrapping */
-  overflow: hidden;
+  // display: inline-flex;
+  // justify-content: center;
+  // align-items: center;
+  // // padding: 10px 20px;
+  // // font-size: 16px;
+  // background-color: red;
+  // color: white; /* Text color */
+  // // border-radius: 5px; /* Rounded corners */
+  // cursor: pointer; /* Changes cursor to pointer on hover */
+  // margin-bottom: 5px; /* Space between buttons */
+  // width: 120px;
+  // min-height: 25px;
+  // font-size: calc(1vw + 1vh); /* Scales with viewport size */
+  // // font-size: 2vw;
+  // box-sizing: border-box;
+  // white-space: nowrap; /* Prevent wrapping */
+  // overflow: hidden;
 
   // display: inline-flex;
   // align-items: center;
@@ -432,6 +432,22 @@ export const NotifyButton = styled.div`
   // white-space: nowrap; /* Prevent wrapping */
   // overflow: hidden; /* Hide overflow */
   // text-overflow: ellipsis; /* Add ellipsis if text overflows */
+
+    display: flex;
+  align-items: center;    /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  padding: 10px;
+
+  font-size: 10px;
+  cursor: pointer;
+  background-color: red;
+  color: white; /* Text color */
+  // border-radius: 5px;
+  width: 110px;   /* Adjust width as needed */
+  // height: 30px;  /* Adjust height as needed */
+  text-align: center; /* Center the text inside */
+  box-sizing: border-box;
+  margin-bottom: 5px; /* Space between buttons */
 
 `;
 
