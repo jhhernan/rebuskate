@@ -62,7 +62,7 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
       <S.PostExtended isVisible={extended}>{description ? description : "lorasa sdasdasdasd asda d asd asd asdasdasdsad asd asd asdas das da d asd asd asdasdasdasd sda sdasdasd sadasd asdasdasdas asssda s faf faefe f afasfa fasf asfa sfa sfasf asfafa"} 
       <S.NotificationChooser isVisible={extended}>
         <div style={{"display":"flex", "justify-content": "center"}}>
-          <button style={{ "color": "white", "background-color": "red", "width":"120px", "border":'0'}} onClick={handleNotifyClick}>ME INTERESA</button>
+          <button style={{ "color": !showOptions ? "white" : "black", "background-color": !showOptions? "black" : "white", "width":"120px", "border": !showOptions ? '0' : "1px solid black"}} onClick={handleNotifyClick}>ME INTERESA</button>
           {/* <S.NotifyButton onClick={handleNotifyClick}>ME INTERESA</S.NotifyButton> */}
         </div>
         {showOptions && (
