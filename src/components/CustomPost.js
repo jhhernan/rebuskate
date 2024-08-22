@@ -83,7 +83,7 @@ const CustomPost = ({ title, description, type, time, location, post, _id })  =>
           <DeleteForever />
         </IconButton> */}
         <AlertDialog
-          title={"Borrar post"}
+          title={"Borrar anuncio"}
           description={"Estas seguro que quieres borrar tu publicacion?"}
           acceptAction={handleDelete}
           component={<DeleteForever/>}
