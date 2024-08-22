@@ -280,7 +280,7 @@ function Register() {
         <div style={{ "padding-left": "5px" }}>
           <S.Tag>
             <input type="checkbox" checked={notifyApp} onChange={()=>{setNotifyApp(!notifyApp)}}/>
-            Recibir perfiles de expertos
+            Recibir contacto de interesado
           </S.Tag>
           <S.Tag>
             <input type="checkbox" checked={notifyCall} onChange={()=>{setNotifyCall(!notifyCall)}}/>
