@@ -35,10 +35,10 @@ const InputField2 = ({ label, type, value, onChange, children}) => {
                 <InputLabel htmlFor="outlined-adornment-password" sx={{
                     color: 'grey', // Default color
                     '&.Mui-focused': {
-                        color: 'green', // Color when focused
+                        color: 'black', // Color when focused
                     },
                     '&.MuiFormLabel-filled': {
-                        color: 'green', // Color when input is filled
+                        color: 'black', // Color when input is filled
                     }
                 }}>{label}</InputLabel>
 

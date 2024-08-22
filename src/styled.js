@@ -111,7 +111,7 @@ export const Tag = styled.div`
     text-justify: auto;
     // font-size: 24px;
     margin-left: 55px;
-    margin-right: 45px;
+    margin-right: 25px;
     padding-top: 10px;
     // padding-bottom: 10px;
     font-size: calc(10px + 2vmin);
@@ -398,7 +398,7 @@ export const NotificationChooser = styled.div`
 `;
 
 export const NotifyButton = styled.div`
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   // padding: 10px 20px;
@@ -408,12 +408,27 @@ export const NotifyButton = styled.div`
   // border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Changes cursor to pointer on hover */
   margin-bottom: 5px; /* Space between buttons */
-  width: 90px;
+  width: 110px;
+  font-size: calc(1vw + 1vh); /* Scales with viewport size */
 
+  // display: inline-flex;
+  // align-items: center;
+  // justify-content: center;
+  // padding: 10px 20px;
+  // font-size: calc(1vw + 1vh); /* Scales with viewport size */
+  // cursor: pointer;
+  // background-color: #007bff;
+  // color: #fff;
+  // border-radius: 5px;
+  // box-sizing: border-box;
+  // width: 100px; /* Fixed width */
+  // // height: 50px; /* Fixed height */
+  // text-align: center;
+  // white-space: nowrap; /* Prevent wrapping */
+  // overflow: hidden; /* Hide overflow */
+  // text-overflow: ellipsis; /* Add ellipsis if text overflows */
 
 `;
-
-
 
 export const PostLocation = styled.article`
   position: absolute;

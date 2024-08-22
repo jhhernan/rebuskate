@@ -23,7 +23,8 @@ export const Input = styled.input`
 
     &:not(:placeholder-shown) + span,
     &:focus + span {
-        color: #1ca34d;
+        // color: #1ca34d;
+        color: black;
         transform: translateX(10px) translateY(-25px);
         font-size: 0.75rem;
         font-weight: 600;
