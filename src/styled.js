@@ -408,8 +408,13 @@ export const NotifyButton = styled.div`
   // border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Changes cursor to pointer on hover */
   margin-bottom: 5px; /* Space between buttons */
-  width: 110px;
+  width: 120px;
+  min-height: 25px;
   font-size: calc(1vw + 1vh); /* Scales with viewport size */
+  // font-size: 2vw;
+  box-sizing: border-box;
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden;
 
   // display: inline-flex;
   // align-items: center;
