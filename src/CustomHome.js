@@ -8,6 +8,7 @@ import mail from './img/mail.png';
 import service_icon from './img/service_icon.png';
 import drill_icon from './img/drill_icon.png';
 import spinner from './img/spinner.gif';
+import Menu from './components/Menu';
 
 import useRefreshToken from './hooks/useRefreshToken';
 
@@ -107,6 +108,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <S.Menu>
+          <Menu />
+        </S.Menu>
       <Link to="/">
           {/* <S.Title>REBUSCATE.com</S.Title> */}
           <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
