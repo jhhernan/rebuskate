@@ -458,6 +458,13 @@ export const PostLocation = styled.article`
   font-size: 10px;
 `;
 
+export const Menu = styled.article`
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  font-size: 10px;
+`;
+
 export const SelectContainer = styled.div`
   position: relative;
   margin: 0;

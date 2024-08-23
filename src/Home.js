@@ -14,7 +14,12 @@ import useRefreshToken from './hooks/useRefreshToken';
 import useAxiosPrivate from './hooks/useAxiosPrivate';
 
 import Post from './components/Post'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import Menu from './components/Menu';
+import SignedOutMenu from './components/SignedOutMenu';
 
+
+  
 function App() {
 
   const [PostsList, setPosts] = useState([]);
@@ -26,7 +31,9 @@ function App() {
 
   const  refresh  = useRefreshToken();
   const axiosPrivate = useAxiosPrivate();
+  const auth = useAuthUser();
 
+  console.log('Probando...', auth);
 
   useEffect(() => {
     console.log('Dentro de Use effect');
@@ -107,6 +114,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <S.Menu>
+          {auth ? <Menu /> : <SignedOutMenu />}
+        </S.Menu>
         <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
         <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
         <S.ButtonContainer>

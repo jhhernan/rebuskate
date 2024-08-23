@@ -12,6 +12,7 @@ import * as S from './styled';
 
 import UploadWidget from './components/UploadWidget';
 import Modal from './components/Modal';
+import Menu from './components/Menu';
 import ImageViewerModal from './components/ImageViewerModal';
 import spinner from './img/spinner.gif';
 import add from './img/add.png';
@@ -210,6 +211,9 @@ function Register() {
   return (
     <div className="App">
       <header className="App-header">
+        <S.Menu>
+          <Menu />
+        </S.Menu>
         <Link to="/">
           {/* <S.Title>REBUSCATE.com</S.Title> */}
           <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
