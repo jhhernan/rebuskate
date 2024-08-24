@@ -4,6 +4,7 @@ import GoLoginDialog from './GoLoginDialog';
 
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import Modal from './OnlyPreviewModal/Modal';
 
 
 
@@ -15,6 +16,12 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
 
   const [extended, setExtended] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const [showModalNew, setShowModalNew] = useState(false);
+  const openModalNew = () => setShowModalNew(true);
+  const closeModalNew = () => setShowModalNew(false);
+
 
   const { notifyWhatsapp, notifyApp, notifyCall } = post;
 
@@ -24,6 +31,13 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
     console.log('Presionado boton')
     setShowOptions(!showOptions);
   };
+
+  const clickOnPreview = (event,image) => {
+    event.stopPropagation();
+    console.log('La imagen seleccionada es:', image)
+    setSelectedImage(image);
+    openModalNew();
+  }
 
   const sendProfile = async (event) => {
     event.stopPropagation();
@@ -64,6 +78,15 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
       <S.PostType>{type}</S.PostType>
       <S.PostTitle isVisible={!extended}>{description}</S.PostTitle>
       <S.PostExtended isVisible={extended}>{description ? description : "lorasa sdasdasdasd asda d asd asd asdasdasdsad asd asd asdas das da d asd asd asdasdasdasd sda sdasdasd sadasd asdasdasdas asssda s faf faefe f afasfa fasf asfa sfa sfasf asfafa"} 
+      <S.PreviewContainer2 isVisible={extended}>
+      {post.imageList.length > 0 && (
+              <div>
+                {post.imageList.map((image, idx) => (
+                  <img src={image} alt="alt text" width="40" height="40" style={{ "margin-left": "10px" }} onClick={(e)=>clickOnPreview(e,image)} />
+                ))}
+              </div>
+            )}
+      </S.PreviewContainer2>
         <S.NotificationChooser isVisible={extended}>
           <div style={{ "display": "flex", "justify-content": "center" }}>
             {/* Un boton para que le salga la alerta en caso que el usuario no este loggeado */}
@@ -94,6 +117,7 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
             )}
       </S.NotificationChooser>
       </S.PostExtended>
+      {showModalNew && <Modal onClose={closeModalNew} imgUrl={selectedImage} />}
       <S.PostLocation>{location}</S.PostLocation>
     </S.PostContainer>
   );

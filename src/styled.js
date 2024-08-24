@@ -218,6 +218,23 @@ export const PreviewContainer = styled.div`
     // margin-bottom: 10px;
 `;
 
+export const PreviewContainer2 = styled.div`  
+    display: flex;
+    justify-content: space-between;
+    justify-content: flex-start;
+    // width: calc(100% - 150px);
+    width: 160px;
+    // position: absolute;
+    left: 45px;
+    // margin-left: 45px;
+    // margin-right: 45px;
+    // margin-bottom: 10px;
+    // border: 1px solid black;
+    margin-top: 10px;
+    visibility: ${props => props.isVisible ? "none" : "hidden"};
+
+`;
+
 
 export const ButtonContainer = styled.div`  
     display: flex;
