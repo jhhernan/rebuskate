@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import * as S from '../styled';
+import GoLoginDialog from './GoLoginDialog';
 
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+
 
 
 const Post = ({ title, description, type, time, location, post, _id })  => {
 
 
   const authHeader = useAuthHeader();
+  const authUser = useAuthUser();
 
   const [extended, setExtended] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -60,9 +64,16 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
       <S.PostType>{type}</S.PostType>
       <S.PostTitle isVisible={!extended}>{description}</S.PostTitle>
       <S.PostExtended isVisible={extended}>{description ? description : "lorasa sdasdasdasd asda d asd asd asdasdasdsad asd asd asdas das da d asd asd asdasdasdasd sda sdasdasd sadasd asdasdasdas asssda s faf faefe f afasfa fasf asfa sfa sfasf asfafa"} 
-      <S.NotificationChooser isVisible={extended}>
-        <div style={{"display":"flex", "justify-content": "center"}}>
-          <button style={{ "color": !showOptions ? "white" : "black", "background-color": !showOptions? "black" : "white", "width":"130px", "border": !showOptions ? '0' : "1px solid black"}} onClick={handleNotifyClick}>ME INTERESA</button>
+        <S.NotificationChooser isVisible={extended}>
+          <div style={{ "display": "flex", "justify-content": "center" }}>
+            {/* Un boton para que le salga la alerta en caso que el usuario no este loggeado */}
+            {!authUser && <GoLoginDialog
+              title={"Inicia Sesion"}
+              description={"Debes iniciar sesion para proceder."}
+              acceptAction={()=>{}}
+              component={ <button style={{ "color": "white", "background-color": "black", "width":"130px", "border":'0'}} >ME INTERESA</button> }
+            />}
+          {authUser && <button style={{ "color": !showOptions ? "white" : "black", "background-color": !showOptions? "black" : "white", "width":"130px", "border": !showOptions ? '0' : "1px solid black"}} onClick={handleNotifyClick}>ME INTERESA</button> }
           {/* <S.NotifyButton onClick={handleNotifyClick}>ME INTERESA</S.NotifyButton> */}
         </div>
         {showOptions && (
