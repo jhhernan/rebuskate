@@ -312,8 +312,7 @@ function Register() {
         {/* <ImageViewerModal showModal={showModal} setShowModal={setShowModal} url={selectedImage} remover={deleteSelectedImage}/> */}
 
          {/* Testing */}
-        {/* <button onClick={openModalNew}>Open Modal</button> */}
-        {/* {showModalNew && <Modal2 onClose={closeModalNew} imgUrl={selectedImage} remover={deleteSelectedImage} />} */}
+        {showModalNew && <Modal2 onClose={closeModalNew} imgUrl={selectedImage} remover={deleteSelectedImage} />}
          {/* Testing */}
 
          {error && ( <ErrorLabel label={error} /> )}
