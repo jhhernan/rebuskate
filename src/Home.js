@@ -8,6 +8,8 @@ import mail from './img/mail.png';
 import service_icon from './img/service_icon.png';
 import drill_icon from './img/drill_icon.png';
 import spinner from './img/spinner.gif';
+import Badge from '@mui/material/Badge';
+import MailIcon from '@mui/icons-material/Mail';
 
 import useRefreshToken from './hooks/useRefreshToken';
 
@@ -124,7 +126,10 @@ function App() {
             <S.Button>CREAR ANUNCIO</S.Button>
           </Link>
           <Link to="/custom" style={{ textDecoration: 'none' }} >
-            <S.Icon src={mail}></S.Icon>
+            {/* <S.Icon src={mail}></S.Icon> */}
+            <Badge style={{"width": "40px",  "margin-top": "5px", "margin-right": "35px", "height":"auto"}} badgeContent={auth ? 4 : null} color="error">
+              <MailIcon fontSize="large" color="action" />
+            </Badge>
           </Link>
         </S.ButtonContainer>
 
