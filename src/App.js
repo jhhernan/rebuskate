@@ -17,14 +17,14 @@ const App = () => {
          <Route path="/" element={<Home />} />
          {/* <Route path="/custom" element={<CustomHome />} /> */}
          <Route path={'/custom'} element={
-            <RequireAuth fallbackPath={'/login'}>
+            <RequireAuth fallbackPath={'/login?redirect=/custom'}>
                <CustomHome />
             </RequireAuth>
          } />
          <Route path="/register" element={<Register />} />
          {/* <Route path="/create" element={<CreatePost />} /> */}
          <Route path={'/create'} element={
-            <RequireAuth fallbackPath={'/login'}>
+            <RequireAuth fallbackPath={'/login?redirect=/create'}>
                <CreatePost />
             </RequireAuth>
          } />

@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLogin } from './hooks/useLogin';
 import CitySelector from './CitySelector';
 import './App.css';
@@ -24,6 +24,7 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn';
 const Login = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -54,8 +55,10 @@ const Login = () => {
                 //Throw error
                 console.log('Error!!!!!!!!!!');
             }
-
-            navigate("/");
+            const searchParams = new URLSearchParams(location.search);
+            const redirect = searchParams.get('redirect') || '/';
+            // navigate("/");
+            navigate(redirect);
         }
     })
     .catch((err)=>{
