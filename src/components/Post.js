@@ -5,6 +5,8 @@ import GoLoginDialog from './GoLoginDialog';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Modal from './OnlyPreviewModal/Modal';
+import ShareIcon from '@mui/icons-material/Share';
+
 
 
 
@@ -25,6 +27,16 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
 
   const { notifyWhatsapp, notifyApp, notifyCall } = post;
 
+
+  const handleShare = (event) => {
+    event.stopPropagation();
+    console.log('Presionado boton de Share')
+    const newUrl = "https://api.whatsapp.com/send/?text="+encodeURIComponent("Creo que esta oportunidad puede interesarte: ")+"https://mellifluous-belekoy-48bd91.netlify.app/post/"+post._id
+    // &"type=phone_number&app_absent=0";
+    console.log('Vamos a:', newUrl);
+    window.location = newUrl;
+
+  };
 
   const handleNotifyClick = (event) => {
     event.stopPropagation();
@@ -96,7 +108,7 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
               acceptAction={()=>{}}
               component={ <button style={{ "color": "white", "background-color": "black", "width":"130px", "border":'0'}} >ME INTERESA</button> }
             />}
-          {authUser && <button style={{ "color": !showOptions ? "white" : "black", "background-color": !showOptions? "black" : "white", "width":"130px", "border": !showOptions ? '0' : "1px solid black"}} onClick={handleNotifyClick}>ME INTERESA</button> }
+          {authUser && <><button style={{"color": !showOptions ? "white" : "black", "background-color": !showOptions? "black" : "white", "width":"130px", "border": !showOptions ? '0' : "1px solid black"}} onClick={handleNotifyClick}>ME INTERESA</button>   <ShareIcon onClick={(e)=>{handleShare(e)}} style={{"position": "absolute", "left": "calc(50% + 70px)","margin-right": "2px"}} fontSize="small" color="action" /></>}
           {/* <S.NotifyButton onClick={handleNotifyClick}>ME INTERESA</S.NotifyButton> */}
         </div>
         {showOptions && (
