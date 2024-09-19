@@ -48,7 +48,7 @@ function Register() {
         <div style={{ "font-size": "8vw", "padding-top": "30px", 'padding-bottom': '40px' }}>Registrate!!!</div>
         <div style={{ "background-color": "black", "color": "white", "width": '80%', "padding": "10px 20px", "display": "inline-flex", "align-items": "center", "justify-content": "center" }} onClick={() => navigate("/lightregister")}>QUIERO PUBLICAR ANUNCIO</div>
         <div style={{ "padding-top": "20px", 'padding-bottom': '20px', "font-size": "6vw" }}>Ó</div>
-        <div style={{ "background-color": "red", "color": "white", "width": '80%', "padding": "10px 20px", "display": "inline-flex", "align-items": "center", "justify-content": "center" }} onClick={() => navigate("/register2")}>QUIERO REBUSCARME</div>
+        <div style={{ "background-color": "red", "color": "white", "width": '80%', "padding": "10px 20px", "display": "inline-flex", "align-items": "center", "justify-content": "center" }} onClick={() => navigate("/registerexpert")}>QUIERO REBUSCARME</div>
         <div style={{ "padding-top": "40px", "font-size": "8vw" }} >Comienza ahora</div>
       </div>
     </>

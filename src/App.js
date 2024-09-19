@@ -6,6 +6,7 @@ import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
 import Register2 from './Register2';
+import RegisterExpert from './RegisterExpert';
 import PreRegister from './PreRegister';
 import Post from './Post';
 import LightRegister from './LightRegister';
@@ -33,6 +34,7 @@ const App = () => {
          } />
          <Route path="/register2" element={<Register2 />} />
          <Route path="/register3" element={<Register3 />} />
+         <Route path="/registerexpert" element={<RegisterExpert />} />
          <Route path="/preregister" element={<PreRegister />} />
          <Route path="/post/:id" element={<Post />} />
          <Route path="/lightregister" element={<LightRegister />} />

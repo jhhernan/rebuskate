@@ -248,7 +248,7 @@ export const ButtonContainer = styled.div`
 export const SelectorContainer = styled.div`  
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
+    align-items: center;
     width: calc(100% - 90px);
     margin-left: 45px;
     margin-right: 45px;
