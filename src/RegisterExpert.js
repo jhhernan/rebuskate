@@ -152,7 +152,7 @@ function Register() {
         <InputField label={"Confirmar Correo electronico"} onChange={ e => {setInfo({...info, emailCheck: e.target.value})}}/>
         <InputField label={"Clave"} type="password" onChange={ e => {setInfo({...info, password: e.target.value})}}/>
         <InputField label={"Confirmar Clave"} type="password" onChange={ e => {setInfo({...info, passwordCheck: e.target.value})}}/>
-        <div style={{"border": "1px solid black", "padding-top": "8px", "margin-top": "8px", "min-height":"520px"}}>
+        <div style={{"border": "1px solid #dadce0", "padding-top": "8px", "margin-top": "8px", "min-height":"520px"}}>
           <div style={{"padding": "8px", "display":"flex", "justify-content": "center"}}>TU INFORMACION</div>
           <InputFieldSpaced label={"Nombres"} onChange={ e => {setInfo({...info, name: e.target.value})}} />
           <InputFieldSpaced label={"Apellidos"} onChange={ e => {setInfo({...info, lastName: e.target.value})}}/>
