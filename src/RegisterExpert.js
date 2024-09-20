@@ -159,9 +159,9 @@ function Register() {
           <div style={{"display":"flex", "justify-content": "center"}}>
           <PersonAddIcon sx={{ width: 70, height: 70 }} color="action" />
           </div>
-          <InputFieldSpaced label={"Oficio"} type='numeric' onChange={ e => {setInfo({...info, occupation: e.target.value})}}/>
+          <InputFieldSpaced label={"Oficio"} onChange={ e => {setInfo({...info, occupation: e.target.value})}}/>
 
-          <S.SelectorContainer style={{"margin-top":"10px"}}>
+          <S.SelectorContainer2 style={{"margin-top":"10px"}}>
           <AddLocationIcon fontSize="large" color="action" />
 
           <select style={{ "background-color": "black", "color": "white",  "flex": "1", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "text-align": "center", "margin": "3px"}} 
@@ -204,7 +204,7 @@ function Register() {
               <><option key="Corozal">Corozal</option><option key="Sincelejo">Sincelejo</option></>
             )}
           </select>
-        </S.SelectorContainer>
+        </S.SelectorContainer2>
         <InputFieldSpaced label={"Telefono (llamadas)"} type='numeric' onChange={ e => {setInfo({...info, phone: e.target.value})}}/>
         <InputFieldSpaced label={"Whatsapp"} type='numeric' onChange={ e => {setInfo({...info, whatsapp: e.target.value})}}/>
 

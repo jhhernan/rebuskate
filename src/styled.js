@@ -255,6 +255,17 @@ export const SelectorContainer = styled.div`
     margin-bottom: 10px;
 `;
 
+export const SelectorContainer2 = styled.div`  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 90px);
+    margin-left: 45px;
+    margin-right: 45px;
+    margin-bottom: 10px;
+`;
+
+
 export const Icon = styled.img`
   width: 32px;
   height: auto;
