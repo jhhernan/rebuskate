@@ -1,37 +1,70 @@
-import logo from './logo.svg';
 import { useState, useEffect } from 'react';
-import { intlFormatDistance, formatRelative, subDays } from 'date-fns';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import styled from 'styled-components';
 import './App.css';
 import * as S from './styled';
-import mail from './img/mail.png';
-import service_icon from './img/service_icon.png';
-import drill_icon from './img/drill_icon.png';
-import spinner from './img/spinner.gif';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 
 import useRefreshToken from './hooks/useRefreshToken';
-
 import useAxiosPrivate from './hooks/useAxiosPrivate';
-
-import Post from './components/Post'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+
 import Menu from './components/Menu';
 import SignedOutMenu from './components/SignedOutMenu';
+import { HeroSection } from './components/home/HeroSection';
+import { FilterChips } from './components/home/FilterChips';
+import { PostGrid } from './components/home/PostGrid';
+import { FloatingActionButton } from './components/home/FloatingActionButton';
+import { EmptyState } from './components/home/EmptyState';
+import { SkeletonGrid } from './components/home/SkeletonGrid';
+
+import { colors, spacing } from './theme';
 
 
-  
+// Styled components for page layout
+const PageContainer = styled.div`
+  min-height: 100vh;
+  background: ${colors.background.secondary};
+`;
+
+const TopBar = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: ${colors.background.primary};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+`;
+
+const ContentArea = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: ${spacing[6]} 0 ${spacing[12]} 0;
+
+  @media (max-width: 640px) {
+    padding: ${spacing[4]} 0 ${spacing[10]} 0;
+  }
+`;
+
+const MailBadgeContainer = styled(Link)`
+  position: fixed;
+  top: ${spacing[4]};
+  right: ${spacing[4]};
+  z-index: 51;
+  text-decoration: none;
+
+  @media (min-width: 640px) {
+    right: ${spacing[6]};
+  }
+`;
+
 function App() {
-
   const [PostsList, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const [department, setDepartment] = useState("");
-  const [city, setCity] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-
-  const  refresh  = useRefreshToken();
+  const navigate = useNavigate();
+  const refresh = useRefreshToken();
   const axiosPrivate = useAxiosPrivate();
   const auth = useAuthUser();
 
@@ -40,10 +73,9 @@ function App() {
   useEffect(() => {
     console.log('Dentro de Use effect');
     let isMounted = true;
-
     const controller = new AbortController();
 
-    const getUsers = async () => {
+    const getPosts = async () => {
       console.log('Voy a intentar axios...')
       try {
         const response = await axiosPrivate.get(process.env.REACT_APP_BACKEND_SERVER + '/posts', {
@@ -52,176 +84,85 @@ function App() {
 
         console.log('La respuesta:', response.data);
 
-        setPosts(response.data);
-        setFilteredPosts(response.data);
-        setIsLoading(false);
-
+        if (isMounted) {
+          setPosts(response.data);
+          setFilteredPosts(response.data);
+          setIsLoading(false);
+        }
       } catch (err) {
         console.log('El error es:', err)
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     }
 
-      getUsers();
+    getPosts();
 
-      return () => {
-        isMounted = false;
-        controller.abort();
-      }
-
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
   }, [])
 
-//   useEffect(() => {
-//     // fetch('http://192.168.2.7:3000/posts')
-//     //  OJO Se agrego proxy en el package.json y se cambio configuracion de webpack en node_modules/react-scripts/config/webpackDevServer.config.js
-//     // se cambio el disbleFirewall a false y se cambia el fetch a solo: /posts sin urlBase
-//     fetch('/posts')
-//        .then((response) => response.json())
-//        .then((data) => {
-//           console.log(data);
-//           setPosts(data);
-//        })
-//        .catch((err) => {
-//           console.log(err.message);
-//        });
-//  }, []);  
+  // Handle filter changes from FilterChips component
+  const handleFilterChange = (department, city) => {
+    console.log('Filtering by:', department, city);
 
-
-
-  const getComponentFromString = (name) => {
-    switch (name) {
-      case 'service_icon':
-        return service_icon;
-      case 'mail':
-        return mail;
-      case 'drill_icon':
-        return drill_icon;
-      default:
-        return null; // Return null or handle other cases as needed
+    if (!department) {
+      // No filters - show all posts
+      setFilteredPosts(PostsList);
+    } else if (!city) {
+      // Department only
+      setFilteredPosts(PostsList.filter(post => post.department === department));
+    } else {
+      // Both department and city
+      setFilteredPosts(PostsList.filter(post =>
+        post.department === department && post.city === city
+      ));
     }
   };
 
-  const handleDepartmentChange = (e) => {
-    console.log('Departamento:', e.target.value);
-    console.log('Filtrando...:', PostsList.filter(post => post.department === department))
-    setDepartment(e.target.value);
-    setCity("");
-    setFilteredPosts(PostsList.filter(post => post.department === e.target.value));
-  };
-
-  const handleCityChange = (e) => {
-    setCity(e.target.value);
-    setFilteredPosts(PostsList.filter(post => post.department === department && post.city === e.target.value));
+  const handleCreateClick = () => {
+    navigate('/create');
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <PageContainer>
+      <TopBar>
         <S.Menu>
           {auth ? <Menu /> : <SignedOutMenu />}
         </S.Menu>
-        <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
-        <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
-        <S.ButtonContainer>
-          <Link to="/create" style={{ textDecoration: 'none' }} >
-            <S.Button>CREAR ANUNCIO</S.Button>
-          </Link>
-          <Link to="/custom" style={{ textDecoration: 'none' }} >
-            {/* <S.Icon src={mail}></S.Icon> */}
-            <Badge style={{"width": "40px",  "margin-top": "5px", "margin-right": "35px", "height":"auto"}} badgeContent={auth ? 4 : null} color="error">
-              <MailIcon fontSize="large" color="action" />
-            </Badge>
-          </Link>
-        </S.ButtonContainer>
+      </TopBar>
 
-        <S.Description>Tus oportunidades para hoy...</S.Description>
+      {/* Mail badge - floating in top right */}
+      {auth && (
+        <MailBadgeContainer to="/custom">
+          <Badge badgeContent={4} color="error">
+            <MailIcon fontSize="large" sx={{ color: colors.primary.main }} />
+          </Badge>
+        </MailBadgeContainer>
+      )}
 
-        <S.Tag>Ubicacion:</S.Tag>
-        <S.SelectorContainer>
-          <select style={{ "background-color": "black", "color": "white",  "flex": "1", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "text-align": "center", "margin": "3px"}} 
-            onChange={handleDepartmentChange} value={department}>
-            <option value="">DEPARTAMENTO</option>
-            <option value="Atlantico">Atlantico</option>
-            <option value="Bolivar">Bolivar</option>
-            <option value="Cordoba">Cordoba</option>
-            <option value="Cesar">Cesar</option>
-            <option value="Guajira">Guajira</option>
-            <option value="Magdalena">Magdalena</option>
-            <option value="Sucre">Sucre</option>
-          </select>
-          <select
-            onChange={handleCityChange}
-            value={city}
-            // disabled={department === ""}
-            style={{ "background-color": "black", "color": "white", "flex": "1", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "text-align": "center", "margin": "3px" }} >
+      <HeroSection />
 
-            <option value="">CIUDAD/MCPIO</option>
-            {department === "Atlantico" && (
-              <><option key="Barranquilla">Barranquilla</option><option key="Ponedera">Ponedera</option><option key="Malambo">Malambo</option><option key="Soledad">Soledad</option></>
-            )}
-            {department === "Bolivar" && (
-              <><option key="Cartagena">Cartagena</option><option key="Turbaco">Turbaco</option></>
-            )}
-            {department === "Cordoba" && (
-              <><option key="Monteria">Monteria</option><option key="Montelibano">Montelibano</option></>
-            )}
-            {department === "Cesar" && (
-              <><option key="La Paz">La Paz</option><option key="Valledupar">Valledupar</option></>
-            )}
-            {department === "Guajira" && (
-              <><option key="Riohacha">Riohacha</option><option key="Palomino">Palomino</option></>
-            )}
-            {department === "Magdalena" && (
-              <><option key="Rodadero">Rodadero</option><option key="Santa Marta">Santa Marta</option></>
-            )}
-            {department === "Sucre" && (
-              <><option key="Corozal">Corozal</option><option key="Sincelejo">Sincelejo</option></>
-            )}
-          </select>
-        </S.SelectorContainer>
+      <ContentArea>
+        <FilterChips
+          posts={PostsList}
+          onFilterChange={handleFilterChange}
+        />
 
-        {isLoading && <img style={{ "width": "40px", "align-self": "center", "padding-top": "50px" }} src={spinner} alt="loading..." />}
+        {isLoading ? (
+          <SkeletonGrid count={6} />
+        ) : filteredPosts.length === 0 ? (
+          <EmptyState onCreateClick={handleCreateClick} />
+        ) : (
+          <PostGrid posts={filteredPosts} />
+        )}
+      </ContentArea>
 
-        {/* {PostsList &&
-          (city
-            ? PostsList.filter(item => item.location === city).map((post, idx) => (
-              <Post
-                key={idx}
-                icon={getComponentFromString(post.icon)}
-                title={post.title}
-                description={post.description}
-                type={post.type}
-                location={post.location}
-                time={post.time}
-              />
-            ))
-            : PostsList.map((post, idx) => (
-              <Post
-                key={idx}
-                icon={getComponentFromString(post.icon)}
-                title={post.title}
-                description={post.description}
-                type={post.type}
-                location={post.location}
-                time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
-              />
-            )))} */}
-
-{ filteredPosts.map((post, idx) => (
-              <Post
-                key={idx}
-                post={post}
-                icon={getComponentFromString(post.icon)}
-                title={post.title}
-                description={post.description}
-                type={post.type}
-                location={post.location}
-                time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
-              />
-            ))
-            }
-
-      </header>
-    </div>
+      <FloatingActionButton onClick={handleCreateClick} />
+    </PageContainer>
   );
 }
 

@@ -3,13 +3,14 @@ import css from 'styled-components'
 import mail from './img/mail.png';
 
 export const Title = styled.div`
-    // font-size: 50px;
     font-size: 11vw;
-    color: red;
-    // color: black;
-    text-decoration: underline;
-    text-decoration-color: black;
+    background: linear-gradient(135deg, #5B7CFF 0%, #FF4081 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-top: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 `;
 
 export const Title2 = styled.div`
