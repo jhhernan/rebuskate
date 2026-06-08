@@ -38,22 +38,16 @@ function App() {
   const axiosPrivate = useAxiosPrivate();
   const auth = useAuthUser();
 
-  console.log('Probando...', auth);
-
   useEffect(() => {
-    console.log('Dentro de Use effect');
     let isMounted = true;
 
     const controller = new AbortController();
 
     const getUsers = async () => {
-      console.log('Voy a intentar axios...')
       try {
         const response = await axiosPrivate.get(process.env.REACT_APP_BACKEND_SERVER + '/posts', {
           signal: controller.signal
         })
-
-        console.log('La respuesta:', response.data);
 
         setPosts(response.data);
         setFilteredPosts(response.data);
@@ -72,23 +66,6 @@ function App() {
       }
 
   }, [])
-
-//   useEffect(() => {
-//     // fetch('http://192.168.2.7:3000/posts')
-//     //  OJO Se agrego proxy en el package.json y se cambio configuracion de webpack en node_modules/react-scripts/config/webpackDevServer.config.js
-//     // se cambio el disbleFirewall a false y se cambia el fetch a solo: /posts sin urlBase
-//     fetch('/posts')
-//        .then((response) => response.json())
-//        .then((data) => {
-//           console.log(data);
-//           setPosts(data);
-//        })
-//        .catch((err) => {
-//           console.log(err.message);
-//        });
-//  }, []);  
-
-
 
   const getComponentFromString = (name) => {
     switch (name) {
@@ -119,7 +96,6 @@ function App() {
 
   const handleDepartmentChange = (e) => {
     const nextDepartment = e.target.value;
-    console.log('Departamento:', nextDepartment);
     setDepartment(nextDepartment);
     setCity("");
     setFilteredPosts(nextDepartment ? PostsList.filter(post => post.department === nextDepartment) : PostsList);
