@@ -3,7 +3,7 @@ import React from 'react'
 import * as S from './styled';
 
 
-const Form = ({ showTitle=true, title='Registrate', children }) => {
+const Form = ({ showTitle=true, title='Regístrate', children }) => {
     return (
         <S.FormContainer>
             {showTitle && <S.FormTitle> {title} </S.FormTitle>}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import * as S from './styled';
+import { departments, getCitiesForDepartment } from './locations';
 
 function CitySelector({selectCity, selectDepartment}) {
 
@@ -22,47 +23,24 @@ function CitySelector({selectCity, selectDepartment}) {
     }
   };
 
+  const cities = getCitiesForDepartment(department);
+
   return (
     <S.SelectorContainer>
-      <select style={{ "background-color": "black", "color": "white", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "flex": "1", "text-align": "center", "margin": "3px" }}
-        onChange={handleDepartmentChange} value={department}>
+      <select onChange={handleDepartmentChange} value={department}>
         <option value="">DEPARTAMENTO</option>
-        <option value="Atlantico">Atlantico</option>
-        <option value="Bolivar">Bolivar</option>
-        <option value="Cordoba">Cordoba</option>
-        <option value="Cesar">Cesar</option>
-        <option value="Guajira">Guajira</option>
-        <option value="Magdalena">Magdalena</option>
-        <option value="Sucre">Sucre</option>
+        {departments.map((departmentOption) => (
+          <option key={departmentOption} value={departmentOption}>{departmentOption}</option>
+        ))}
       </select>
       <select
         onChange={handleCityChange}
-        value={city}
-        // disabled={department === ""}
-        style={{ "background-color": "black", "color": "white", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "flex": "1", "text-align": "center", "margin": "3px" }} >
+        value={city}>
 
         <option value="">CIUDAD/MCPIO</option>
-        {department === "Atlantico" && (
-          <><option key="Barranquilla">Barranquilla</option><option key="Ponedera">Ponedera</option><option key="Malambo">Malambo</option><option key="Soledad">Soledad</option></>
-        )}
-        {department === "Bolivar" && (
-          <><option key="Cartagena">Cartagena</option><option key="Turbaco">Turbaco</option></>
-        )}
-        {department === "Cordoba" && (
-          <><option key="Monteria">Monteria</option><option key="Montelibano">Montelibano</option></>
-        )}
-        {department === "Cesar" && (
-          <><option key="La Paz">La Paz</option><option key="Valledupar">Valledupar</option></>
-        )}
-        {department === "Guajira" && (
-          <><option key="Riohacha">Riohacha</option><option key="Palomino">Palomino</option></>
-        )}
-        {department === "Magdalena" && (
-          <><option key="Rodadero">Rodadero</option><option key="Santa Marta">Santa Marta</option></>
-        )}
-        {department === "Sucre" && (
-          <><option key="Corozal">Corozal</option><option key="Sincelejo">Sincelejo</option></>
-        )}
+        {cities.map((cityOption) => (
+          <option key={cityOption} value={cityOption}>{cityOption}</option>
+        ))}
       </select>
     </S.SelectorContainer>
   );

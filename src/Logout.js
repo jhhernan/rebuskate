@@ -28,33 +28,19 @@ const Logout = () => {
 console.log('Testing v2:', authHeader);
   
   return (
-    <>
-            {/* <Link to="/">
-          <S.Title>REBUSKATE.com</S.Title>
-        </Link> */}
     <div className="App">
-      <header className="App-header1">
+      <S.BrandHeader>
         <Link to="/">
-          {/* <S.Title>REBUSCATE.com</S.Title> */}
-          <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
+          <S.BrandMark>
+            <S.BrandDot>R</S.BrandDot>
+            <S.BrandName>rebuscate<span>.com</span></S.BrandName>
+          </S.BrandMark>
         </Link>
+      </S.BrandHeader>
 
-      </header>
-    </div>
+      <S.AuthShell>
 
-    <div style={{  "display": "flex",
-    "flex-direction": "column", 
-      // "border": "1px solid red",
-      // "justify-content": "center",
-      "align-items": "center",
-      "padding": "1rem",
-      "height": "100vh",
-      "padding-left": "40px",
-      "padding-right": "40px",
-
-      }}>
-
-      <Form title='Salir de Sesion'>
+      <Form title='Salir de sesión'>
         <div>Prueba:{auth.user}</div>
         <div>Prueba2:{authHeader}</div>
 
@@ -62,8 +48,8 @@ console.log('Testing v2:', authHeader);
       </Form>
 
       <br />
-     </div>
-    </>
+      </S.AuthShell>
+    </div>
   );
   
 }

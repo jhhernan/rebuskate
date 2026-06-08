@@ -16,7 +16,7 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
 
   const [extended, setExtended] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const [showModalNew, setShowModalNew] = useState(false);
   const openModalNew = () => setShowModalNew(true);
@@ -24,6 +24,8 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
 
 
   const { notifyWhatsapp, notifyApp, notifyCall } = post;
+  const imageList = post.imageList || [];
+  const previewImages = imageList.slice(0, 3);
 
 
   const handleNotifyClick = (event) => {
@@ -32,10 +34,9 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
     setShowOptions(!showOptions);
   };
 
-  const clickOnPreview = (event,image) => {
+  const clickOnPreview = (event, imageIndex) => {
     event.stopPropagation();
-    console.log('La imagen seleccionada es:', image)
-    setSelectedImage(image);
+    setSelectedImageIndex(imageIndex);
     openModalNew();
   }
 
@@ -79,19 +80,24 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
       <S.PostTitle isVisible={!extended}>{description}</S.PostTitle>
       <S.PostExtended isVisible={extended}>{description ? description : "lorasa sdasdasdasd asda d asd asd asdasdasdsad asd asd asdas das da d asd asd asdasdasdasd sda sdasdasd sadasd asdasdasdas asssda s faf faefe f afasfa fasf asfa sfa sfasf asfafa"} 
       <S.PreviewContainer2 isVisible={extended}>
-      {post.imageList.length > 0 && (
-              <div>
-                {post.imageList.map((image, idx) => (
-                  <img src={image} alt="alt text" width="40" height="40" style={{ "margin-left": "10px" }} onClick={(e)=>clickOnPreview(e,image)} />
+      {imageList.length > 0 && (
+              <S.PreviewGrid>
+                {previewImages.map((image, idx) => (
+                  <S.PreviewTile key={`${image}-${idx}`} onClick={(e)=>clickOnPreview(e, idx)} aria-label={`Abrir imagen ${idx + 1}`}>
+                    <img src={image} alt="" />
+                    {idx === previewImages.length - 1 && imageList.length > previewImages.length && (
+                      <S.PreviewMore>+{imageList.length - previewImages.length}</S.PreviewMore>
+                    )}
+                  </S.PreviewTile>
                 ))}
-              </div>
+              </S.PreviewGrid>
             )}
       </S.PreviewContainer2>
         <S.NotificationChooser isVisible={extended}>
           <div style={{ "display": "flex", "justify-content": "center" }}>
             {/* Un boton para que le salga la alerta en caso que el usuario no este loggeado */}
             {!authUser && <GoLoginDialog
-              title={"Inicia Sesion"}
+              title={"Inicia sesión"}
               description={"Debes iniciar sesion para proceder."}
               acceptAction={()=>{}}
               component={ <button style={{ "color": "white", "background-color": "black", "width":"130px", "border":'0'}} >ME INTERESA</button> }
@@ -105,7 +111,7 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
                         SMS
                     </div> */}
                     {notifyCall && (<S.NotifyButton><a href={"tel:"+notifyCall} style={{"text-decoration":"none", "color": "white" }}>LLAMAR</a></S.NotifyButton>)}
-                    {notifyWhatsapp && (<S.NotifyButton><a href={"https://wa.me/57"+notifyWhatsapp+"?text="+encodeURIComponent("Estoy interesado en la publicacion: " + description)} style={{"text-decoration":"none", "color": "white" }}>WHATSAPP</a></S.NotifyButton>)}
+                    {notifyWhatsapp && (<S.NotifyButton><a href={"https://wa.me/57"+notifyWhatsapp+"?text="+encodeURIComponent("Estoy interesado en la publicación: " + description)} style={{"text-decoration":"none", "color": "white" }}>WHATSAPP</a></S.NotifyButton>)}
                     {notifyApp && (<S.NotifyButton onClick={sendProfile} >ENVIAR MI CONTACTO</S.NotifyButton>)}
                     {/* <div className="my-button"  style={{ marginTop: '10px' }}>
                         Call
@@ -117,7 +123,7 @@ const Post = ({ title, description, type, time, location, post, _id })  => {
             )}
       </S.NotificationChooser>
       </S.PostExtended>
-      {showModalNew && <Modal onClose={closeModalNew} imgUrl={selectedImage} />}
+      {showModalNew && <Modal onClose={closeModalNew} images={imageList} initialIndex={selectedImageIndex} />}
       <S.PostLocation>{location}</S.PostLocation>
     </S.PostContainer>
   );

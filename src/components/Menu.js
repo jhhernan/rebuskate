@@ -6,20 +6,23 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 
 export default function AccountMenu() {
     const navigate = useNavigate();
-    const auth = useAuthUser();
-    const initials = (auth.name.charAt(0).toUpperCase() || "") + (auth.lastName.charAt(0).toUpperCase() || "");
+    const auth = useAuthUser() || {};
+    const firstName = auth.name || auth.firstName || "";
+    const lastName = auth.lastName || auth.lastname || "";
+    const email = auth.email || "";
+    const initials = [firstName, lastName]
+      .filter(Boolean)
+      .map((value) => value.charAt(0).toUpperCase())
+      .join("") || email.charAt(0).toUpperCase();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);

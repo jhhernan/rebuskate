@@ -1,57 +1,75 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 import './App.css';
 import * as S from './styled';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 
 
 function Register() {
-
-  const [selectedCity, setSelectedCity] = useState("");
-  const [icon, setIcon] = useState("mail");
-  const [description, setDescription] = useState("");
-  const [type1, setType1] = useState("");
-  const [type2, setType2] = useState("");
-  const [postId, setPostId] = useState("");
-  const [info, setInfo] = useState();
-
-
-  const navigate = useNavigate();  // Initialize navigate
-
-
-
   return (
-    <>
+    <div className="App">
+      <header className="App-header">
+        <S.AppShell>
+          <S.TopBar>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <S.BrandMark>
+                <S.BrandDot>R</S.BrandDot>
+                <S.BrandName>rebuscate<span>.com</span></S.BrandName>
+              </S.BrandMark>
+            </Link>
+          </S.TopBar>
 
+          <S.Hero>
+            <S.HeroKicker><PersonAddIcon fontSize="small" /> Crear cuenta</S.HeroKicker>
+            <S.HeroTitle>Regístrate.</S.HeroTitle>
+            <S.HeroText>Elige como quieres usar rebuscate.com para crear el tipo de perfil correcto desde el inicio.</S.HeroText>
+          </S.Hero>
 
-      <div className="App">
-        <header className="App-header1">
-          <Link to="/">
-            {/* <S.Title>REBUSCATE.com</S.Title> */}
-            <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
-          </Link>
+          <S.SectionHeader>
+            <S.SectionTitle>¿Qué quieres hacer?</S.SectionTitle>
+            <S.ResultCount>2 opciones</S.ResultCount>
+          </S.SectionHeader>
 
-        </header>
-      </div>
+          <S.FeedGrid>
+            <Link to="/lightregister" style={{ textDecoration: 'none' }}>
+              <S.PostContainer>
+                <S.JobCardTop>
+                  <S.JobAvatar><AddCircleOutlineIcon fontSize="small" /></S.JobAvatar>
+                  <S.JobMain>
+                    <S.PostType>Publicar anuncio</S.PostType>
+                    <S.PostTitle isVisible={true}>Quiero publicar un anuncio o servicio que necesito.</S.PostTitle>
+                    <S.JobMetaRow>
+                      <S.JobMeta>Crear cuenta para publicar</S.JobMeta>
+                    </S.JobMetaRow>
+                  </S.JobMain>
+                </S.JobCardTop>
+              </S.PostContainer>
+            </Link>
 
-      <div style={{
-        "display": "flex",
-        "flex-direction": "column",
-        // "border": "1px solid red",
-        //  "justify-content": "center",
-        "align-items": "center",
-        "padding": "1rem",
-        "height": "100vh"
-      }}>
+            <Link to="/registerexpert" style={{ textDecoration: 'none' }}>
+              <S.PostContainer>
+                <S.JobCardTop>
+                  <S.JobAvatar><WorkOutlineIcon fontSize="small" /></S.JobAvatar>
+                  <S.JobMain>
+                    <S.PostType>Buscar trabajo</S.PostType>
+                    <S.PostTitle isVisible={true}>Quiero rebuscarme y ofrecer mi oficio o experiencia.</S.PostTitle>
+                    <S.JobMetaRow>
+                      <S.JobMeta>Crear perfil de trabajador</S.JobMeta>
+                    </S.JobMetaRow>
+                  </S.JobMain>
+                </S.JobCardTop>
+              </S.PostContainer>
+            </Link>
+          </S.FeedGrid>
 
-        <div style={{ "font-size": "8vw", "padding-top": "30px", 'padding-bottom': '40px' }}>Registrate!!!</div>
-        <div style={{ "background-color": "black", "color": "white", "width": '80%', "padding": "10px 20px", "display": "inline-flex", "align-items": "center", "justify-content": "center" }} onClick={() => navigate("/lightregister")}>QUIERO PUBLICAR ANUNCIO</div>
-        <div style={{ "padding-top": "20px", 'padding-bottom': '20px', "font-size": "6vw" }}>Ó</div>
-        <div style={{ "background-color": "red", "color": "white", "width": '80%', "padding": "10px 20px", "display": "inline-flex", "align-items": "center", "justify-content": "center" }} onClick={() => navigate("/registerexpert")}>QUIERO REBUSCARME</div>
-        <div style={{ "padding-top": "40px", "font-size": "8vw" }} >Comienza ahora</div>
-      </div>
-    </>
+          <S.Description style={{ paddingTop: '24px' }}>
+            Ya tienes usuario? <Link to="/login">Ingresa aquí</Link>
+          </S.Description>
+        </S.AppShell>
+      </header>
+    </div>
   );
 
 }

@@ -10,6 +10,8 @@ import drill_icon from './img/drill_icon.png';
 import spinner from './img/spinner.gif';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SearchIcon from '@mui/icons-material/Search';
 
 import useRefreshToken from './hooks/useRefreshToken';
 
@@ -19,6 +21,7 @@ import Post from './components/Post'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Menu from './components/Menu';
 import SignedOutMenu from './components/SignedOutMenu';
+import { departments, getCitiesForDepartment } from './locations';
 
 
   
@@ -100,126 +103,115 @@ function App() {
     }
   };
 
+  const getPostIcon = (post) => {
+    const savedIcon = getComponentFromString(post.icon);
+
+    if ((post.type || "").toUpperCase().includes("SE NECESITA")) {
+      return null;
+    }
+
+    if (savedIcon) {
+      return savedIcon;
+    }
+
+    return null;
+  };
+
   const handleDepartmentChange = (e) => {
-    console.log('Departamento:', e.target.value);
-    console.log('Filtrando...:', PostsList.filter(post => post.department === department))
-    setDepartment(e.target.value);
+    const nextDepartment = e.target.value;
+    console.log('Departamento:', nextDepartment);
+    setDepartment(nextDepartment);
     setCity("");
-    setFilteredPosts(PostsList.filter(post => post.department === e.target.value));
+    setFilteredPosts(nextDepartment ? PostsList.filter(post => post.department === nextDepartment) : PostsList);
   };
 
   const handleCityChange = (e) => {
-    setCity(e.target.value);
-    setFilteredPosts(PostsList.filter(post => post.department === department && post.city === e.target.value));
+    const nextCity = e.target.value;
+    setCity(nextCity);
+    setFilteredPosts(PostsList.filter(post => {
+      const departmentMatches = department ? post.department === department : true;
+      const cityMatches = nextCity ? post.city === nextCity : true;
+      return departmentMatches && cityMatches;
+    }));
   };
+
+  const cities = getCitiesForDepartment(department);
 
   return (
     <div className="App">
       <header className="App-header">
-        <S.Menu>
-          {auth ? <Menu /> : <SignedOutMenu />}
-        </S.Menu>
-        <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
-        <S.Description> Encuentra la persona experta que necesitas aqui!!!</S.Description>
-        <S.ButtonContainer>
-          <Link to="/create" style={{ textDecoration: 'none' }} >
-            <S.Button>CREAR ANUNCIO</S.Button>
-          </Link>
-          <Link to="/custom" style={{ textDecoration: 'none' }} >
-            {/* <S.Icon src={mail}></S.Icon> */}
-            <Badge style={{"width": "40px",  "margin-top": "5px", "margin-right": "35px", "height":"auto"}} badgeContent={auth ? 4 : null} color="error">
-              <MailIcon fontSize="large" color="action" />
-            </Badge>
-          </Link>
-        </S.ButtonContainer>
+        <S.AppShell>
+          <S.TopBar>
+            <S.BrandMark>
+              <S.BrandDot>R</S.BrandDot>
+              <S.BrandName>rebuscate<span>.com</span></S.BrandName>
+            </S.BrandMark>
+            {auth ? <Menu /> : <SignedOutMenu />}
+          </S.TopBar>
 
-        <S.Description>Tus oportunidades para hoy...</S.Description>
+          <S.Hero>
+            <S.HeroTitle>Rebuscate hoy!!!</S.HeroTitle>
+            <S.HeroText>Publica lo que necesitas o revisa oportunidades activas por ciudad.</S.HeroText>
+            <S.HeroText>Encuentra una oportunidad para ti ahora!</S.HeroText>
+            <S.HeroActions>
+              <Link to="/create">
+                <S.PrimaryAction><AddCircleOutlineIcon fontSize="small" /> Publicar aviso</S.PrimaryAction>
+              </Link>
+              <Link to="/custom">
+                <S.SecondaryAction>
+                  <Badge badgeContent={auth ? 4 : null} color="error">
+                    <MailIcon fontSize="small" />
+                  </Badge>
+                  Mis publicaciones
+                </S.SecondaryAction>
+              </Link>
+            </S.HeroActions>
+          </S.Hero>
 
-        <S.Tag>Ubicacion:</S.Tag>
-        <S.SelectorContainer>
-          <select style={{ "background-color": "black", "color": "white",  "flex": "1", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "text-align": "center", "margin": "3px"}} 
-            onChange={handleDepartmentChange} value={department}>
-            <option value="">DEPARTAMENTO</option>
-            <option value="Atlantico">Atlantico</option>
-            <option value="Bolivar">Bolivar</option>
-            <option value="Cordoba">Cordoba</option>
-            <option value="Cesar">Cesar</option>
-            <option value="Guajira">Guajira</option>
-            <option value="Magdalena">Magdalena</option>
-            <option value="Sucre">Sucre</option>
-          </select>
-          <select
-            onChange={handleCityChange}
-            value={city}
-            // disabled={department === ""}
-            style={{ "background-color": "black", "color": "white", "flex": "1", "padding": "10px 10px 10px 10px", "border-radius": "0", "-webkit-appearance": "none", "text-align": "center", "margin": "3px" }} >
+          <S.FilterPanel>
+            <S.FilterTitle><SearchIcon fontSize="small" /> Filtrar oportunidades</S.FilterTitle>
+            <S.SelectorContainer>
+              <select onChange={handleDepartmentChange} value={department}>
+                <option value="">Todos los departamentos</option>
+                {departments.map((departmentOption) => (
+                  <option key={departmentOption} value={departmentOption}>{departmentOption}</option>
+                ))}
+              </select>
+              <select onChange={handleCityChange} value={city}>
+                <option value="">Todas las ciudades</option>
+                {cities.map((cityOption) => (
+                  <option key={cityOption} value={cityOption}>{cityOption}</option>
+                ))}
+              </select>
+            </S.SelectorContainer>
+          </S.FilterPanel>
 
-            <option value="">CIUDAD/MCPIO</option>
-            {department === "Atlantico" && (
-              <><option key="Barranquilla">Barranquilla</option><option key="Ponedera">Ponedera</option><option key="Malambo">Malambo</option><option key="Soledad">Soledad</option></>
-            )}
-            {department === "Bolivar" && (
-              <><option key="Cartagena">Cartagena</option><option key="Turbaco">Turbaco</option></>
-            )}
-            {department === "Cordoba" && (
-              <><option key="Monteria">Monteria</option><option key="Montelibano">Montelibano</option></>
-            )}
-            {department === "Cesar" && (
-              <><option key="La Paz">La Paz</option><option key="Valledupar">Valledupar</option></>
-            )}
-            {department === "Guajira" && (
-              <><option key="Riohacha">Riohacha</option><option key="Palomino">Palomino</option></>
-            )}
-            {department === "Magdalena" && (
-              <><option key="Rodadero">Rodadero</option><option key="Santa Marta">Santa Marta</option></>
-            )}
-            {department === "Sucre" && (
-              <><option key="Corozal">Corozal</option><option key="Sincelejo">Sincelejo</option></>
-            )}
-          </select>
-        </S.SelectorContainer>
+          <S.SectionHeader>
+            <S.SectionTitle>Oportunidades disponibles</S.SectionTitle>
+            <S.ResultCount>{filteredPosts.length} resultados</S.ResultCount>
+          </S.SectionHeader>
 
-        {isLoading && <img style={{ "width": "40px", "align-self": "center", "padding-top": "50px" }} src={spinner} alt="loading..." />}
+          {isLoading && <img style={{ "width": "40px", "align-self": "center", "padding-top": "34px" }} src={spinner} alt="loading..." />}
 
-        {/* {PostsList &&
-          (city
-            ? PostsList.filter(item => item.location === city).map((post, idx) => (
-              <Post
-                key={idx}
-                icon={getComponentFromString(post.icon)}
-                title={post.title}
-                description={post.description}
-                type={post.type}
-                location={post.location}
-                time={post.time}
-              />
-            ))
-            : PostsList.map((post, idx) => (
-              <Post
-                key={idx}
-                icon={getComponentFromString(post.icon)}
-                title={post.title}
-                description={post.description}
-                type={post.type}
-                location={post.location}
-                time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
-              />
-            )))} */}
+          {!isLoading && filteredPosts.length === 0 && (
+            <S.EmptyState>No hay publicaciones para este filtro. Prueba otra ciudad o publica una nueva oportunidad.</S.EmptyState>
+          )}
 
-{ filteredPosts.map((post, idx) => (
+          <S.FeedGrid>
+            {filteredPosts.map((post, idx) => (
               <Post
                 key={idx}
                 post={post}
-                icon={getComponentFromString(post.icon)}
+                icon={getPostIcon(post)}
                 title={post.title}
                 description={post.description}
                 type={post.type}
                 location={post.location}
                 time={intlFormatDistance(new Date(post.createdAt), new Date(), { addSuffix: true, locale:'es' })}
               />
-            ))
-            }
-
+            ))}
+          </S.FeedGrid>
+        </S.AppShell>
       </header>
     </div>
   );

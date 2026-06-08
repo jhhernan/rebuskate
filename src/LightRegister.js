@@ -1,39 +1,50 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import './App.css';
 import * as S from './styled';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import Button from './components/Button';
 import Form from './components/Form';
 import ErrorLabel from './components/ErrorLabel';
+import SuccessLabel from './components/SuccessLabel';
 import InputField from './components/InputField';
+import InputPassword from './components/InputPassword';
 
 
 function LightRegister() {
 
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState({});
   const [error, setError] = useState(false);  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [registrationComplete, setRegistrationComplete] = useState(false);
 
   const navigate = useNavigate();  // Initialize navigate
 
-  useEffect(() => {
-    if (error){
+  const handleInfoChange = (field, value) => {
+    if (error) {
       setError('');
     }
-  }, [info])
+    setInfo({ ...info, [field]: value });
+  }
 
+  const handleForm = async (event) => {
+    event.preventDefault();
+    let didCompleteRegistration = false;
 
-
-  const handleForm = async () => {
-
+    if (!info.email || !info.emailCheck || !info.password || !info.passwordCheck) {
+      setError('Completa todos los campos');
+      return
+    }
     if (info.email.toLowerCase() !== info.emailCheck.toLowerCase()){
       console.log('Los emails no concuerdan!', info.email, info.emailCheck);
       setError('Los emails no concuerdan');
       return
     }
-    if (info.password.toLowerCase() !== info.passwordCheck.toLowerCase()){
+    if (info.password !== info.passwordCheck){
       console.log('Las claves no concuerdan!');
       setError('Las claves no concuerdan');
       return
@@ -44,85 +55,74 @@ function LightRegister() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({...info})
     };
-    fetch(process.env.REACT_APP_BACKEND_SERVER + '/users/signup', requestOptions)
-      .then(response => response.json())
-      // .then(data => setCompleted(true));
 
+    try {
+      setIsSubmitting(true);
+      const response = await fetch(process.env.REACT_APP_BACKEND_SERVER + '/users/signup', requestOptions);
+      const data = await response.json();
 
-      fetch(process.env.REACT_APP_BACKEND_SERVER + '/users/signup', requestOptions)
-      .then(response => {
-        // Try to parse the body even if the status code is not 200-299
-        return response.json().then(data => {
-          if (!response.ok) {
-            // If the response is not OK, throw an error including the body
-            const error = new Error(`Error: ${response.status} ${response.statusText}`);
-            error.data = data; // Attach the error body to the error object
-            throw error;
-          }
-          return data; // If response is OK, return the parsed data
-        });
-      })
-      .then(data => {
-        // Handle successful response data here
-        console.log('Success:', data);
+      if (!response.ok) {
+        throw new Error(data.error || 'No se pudo registrar el usuario');
+      }
+
+      console.log('Success:', data);
+      didCompleteRegistration = true;
+      setRegistrationComplete(true);
+      setTimeout(() => {
         navigate("/login");
-      })
-      .catch(error => {
-        // Handle both network errors and response errors here
-        console.error('There was an error!', error.message);
-        if (error.data) {
-          console.error('Error body:', error.data); // Print the error body if available
-          setError(error.data.error)
-        }
-      });
-    
-
+      }, 2000);
+    } catch (error) {
+      console.error('There was an error!', error.message);
+      setError(error.message);
+      setIsSubmitting(false);
+    } finally {
+      if (!didCompleteRegistration) {
+        setIsSubmitting(false);
+      }
+    }
   }
 
 
   return (
-    <>
+    <div className="App">
+      <header className="App-header">
+        <S.AppShell>
+          <S.TopBar>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <S.BrandMark>
+                <S.BrandDot>R</S.BrandDot>
+                <S.BrandName>rebuscate<span>.com</span></S.BrandName>
+              </S.BrandMark>
+            </Link>
+          </S.TopBar>
 
+          <S.Hero>
+            <S.HeroKicker><AddCircleOutlineIcon fontSize="small" /> Publicar anuncio</S.HeroKicker>
+            <S.HeroTitle>Crea tu cuenta.</S.HeroTitle>
+            <S.HeroText>Regístrate para publicar oportunidades, recibir interesados y gestionar tus anuncios desde tu panel.</S.HeroText>
+          </S.Hero>
 
-      <div className="App">
-        <header className="App-header1">
-          <Link to="/">
-            {/* <S.Title>REBUSCATE.com</S.Title> */}
-            <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
-          </Link>
+          <S.SectionHeader>
+            <S.SectionTitle>Datos de acceso</S.SectionTitle>
+            <S.ResultCount>Cuenta para publicar</S.ResultCount>
+          </S.SectionHeader>
 
-        </header>
-      </div>
+          <S.AuthShell>
+            <Form title='Regístrate'>
+              <InputField label={"Correo electrónico"} onChange={e => { handleInfoChange('email', e.target.value) }} />
+              <InputField label={"Confirmar correo electrónico"} onChange={e => { handleInfoChange('emailCheck', e.target.value) }} />
+              <InputPassword label={"Clave"} onChange={e => { handleInfoChange('password', e.target.value) }} />
+              <InputPassword label={"Confirmar Clave"} onChange={e => { handleInfoChange('passwordCheck', e.target.value) }} />
+              {error && (<ErrorLabel label={error} />)}
+              {registrationComplete && (<SuccessLabel label={"Cuenta creada exitosamente. Ya puedes iniciar sesión."} />)}
+              <Button title={isSubmitting ? "Registrando..." : "Registrar"} type='button' disabled={isSubmitting || registrationComplete} onClick={handleForm} />
+            </Form>
 
-      <div style={{
-        "display": "flex",
-        "flex-direction": "column",
-        // "border": "1px solid red",
-        //  "justify-content": "center",
-        "align-items": "center",
-        "padding": "1rem",
-        "height": "100vh"
-      }}>
-
-
-        <Form>
-          {/* <InputField label={"Nombres"} onChange={ e => {setInfo({...info, name: e.target.value})}} /> */}
-          {/* <InputField label={"Apellidos"} onChange={ e => {setInfo({...info, lastName: e.target.value})}}/> */}
-          {/* <InputField label={"Celular"} type='numeric' onChange={ e => {setInfo({...info, phone: e.target.value})}}/> */}
-          <InputField label={"Correo Electronico"} onChange={e => { setInfo({ ...info, email: e.target.value }) }} />
-          <InputField label={"Confirmar Correo electronico"} onChange={e => { setInfo({ ...info, emailCheck: e.target.value }) }} />
-          <InputField label={"Clave"} type="password" onChange={e => { setInfo({ ...info, password: e.target.value }) }} />
-          <InputField label={"Confirmar Clave"} type="password" onChange={e => { setInfo({ ...info, passwordCheck: e.target.value }) }} />
-          {error && (<ErrorLabel label={error} />)}
-          <br />
-          <br />
-          <Button title="Registrar" type='button' onClick={handleForm} />
-
-        </Form>
-        <br />
-        <div>Ya tienes usuario? <a href={"/login"}>Ingresa aqui</a></div>
-      </div>
-    </>
+            <S.JobMeta><PersonAddIcon fontSize="small" /> Ya tienes usuario? <Link to="/login">Ingresa aquí</Link></S.JobMeta>
+          </S.AuthShell>
+        </S.AppShell>
+      </header>
+    </div>
   );
 
 }

@@ -3,9 +3,9 @@ import React from 'react'
 import * as S from './styled';
 
 
-const Form = ({ showTitle=true, title='Registrate', children }) => {
+const Form = ({ showTitle=true, title='Regístrate', children, onSubmit }) => {
     return (
-        <S.FormContainer>
+        <S.FormContainer onSubmit={onSubmit}>
             {showTitle && <S.FormTitle> {title} </S.FormTitle>}
             {children}
         </S.FormContainer>

@@ -1,0 +1,19 @@
+sensoratemp.online {
+	bind 163.245.217.37
+
+	root * /var/www/rebuskate
+	encode gzip
+
+	handle /users* {
+		reverse_proxy localhost:3000
+	}
+
+	handle /posts* {
+		reverse_proxy localhost:3000
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}

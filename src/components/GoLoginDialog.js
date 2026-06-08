@@ -53,7 +53,7 @@ export default function AlertDialog({title, description, acceptAction, component
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
           <Button onClick={handleAccept} autoFocus>
-            Iniciar Sesion
+            Iniciar sesión
           </Button>
         </DialogActions>
       </Dialog>

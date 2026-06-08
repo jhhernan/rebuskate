@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { intlFormatDistance, formatRelative, subDays } from 'date-fns';
 import './App.css';
@@ -88,10 +88,15 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <S.Menu>
+        <S.BrandHeader>
+          <Link to="/">
+            <S.BrandMark>
+              <S.BrandDot>R</S.BrandDot>
+              <S.BrandName>rebuscate<span>.com</span></S.BrandName>
+            </S.BrandMark>
+          </Link>
           {auth ? <Menu /> : <SignedOutMenu />}
-        </S.Menu>
-        <S.Title>rebuscate<span style={{ "color": "black" }}>.com</span></S.Title>
+        </S.BrandHeader>
 
         <S.Description>Revisa esta oportunidad:</S.Description>
 
